@@ -14,18 +14,18 @@ const SearchResultsItem = ({ anime }) => {
       <div className="image">
         <img alt={title} src={images.jpg.small_image_url} />
       </div>
-      <div className="info">
-        <div className="title">{title}</div>
-        <div className="genre">
+      <div className="search-item-info">
+        <div className="search-item-title">{title}</div>
+        <div className="search-item-genre">
           <span className="underline">Genres:</span> {renderGenres(genres)}
         </div>
-        <div className="type">
+        <div className="search-item-type">
           <span className="underline">Type:</span> {type}
         </div>
-        <div className="score">
+        <div className="search-item-score">
           <span className="underline">Score:</span> {score || "N/A"}
         </div>
-        <div className="rating">
+        <div className="search-item-rating">
           <span className="underline">Rating:</span> {rating}
         </div>
       </div>

@@ -7,7 +7,7 @@
   margin: auto;
 }
 
-.genre {
+.search-item-genre {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,14 +24,14 @@
   cursor: pointer;
 }
 
-.info {
+.search-item-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
 }
 
-.title {
+.search-item-title {
   font-weight: bold;
   font-size: 1.2rem;
 }

@@ -47,10 +47,8 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
         setLoggedInUser(user);
         setIsUserLoggedIn(true);
         setOpen(false);
-        console.log("12");
         return;
       } else {
-        console.log("object");
         setIsCorrectPassword(false);
       }
     }

@@ -9,3 +9,13 @@ export const getAnimeBySearch = async (q) => {
   });
   return data.data;
 };
+
+export const getAnimeById = async (id) => {
+  const { data } = await jikan.get(`/anime/${id}/full`);
+  return data;
+};
+
+export const getAnimePicturesById = async (id) => {
+  const { data } = await jikan.get(`/anime/${id}/pictures`);
+  return data;
+};

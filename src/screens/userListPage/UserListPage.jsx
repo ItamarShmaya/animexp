@@ -1,8 +1,18 @@
 import "./UserListPage.css";
-import { useLoggedInUser } from "../../context/context_custom_hooks";
+import {
+  useLoggedInUser,
+  useIsUserLoggedIn,
+} from "../../context/context_custom_hooks";
 const UserListPage = () => {
   const { loggedInUser, setLoggedInUser } = useLoggedInUser();
+  const { isUserLoggedIn, setIsUderLoggedIn } = useIsUserLoggedIn();
 
-  return <div className="hello">{JSON.stringify(loggedInUser)}</div>;
+  return (
+    <>
+      <div>
+        {isUserLoggedIn ? "asdsa" : "Must be logged in to view this page"}
+      </div>
+    </>
+  );
 };
 export default UserListPage;
