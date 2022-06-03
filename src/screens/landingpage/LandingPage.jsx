@@ -1,9 +1,10 @@
 import "./LandingPage.css";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 const LandingPage = () => {
   return (
-    <div>
-      <div className="hero"></div>
+    <div className="hero">
+      <SearchBar />
     </div>
   );
 };
