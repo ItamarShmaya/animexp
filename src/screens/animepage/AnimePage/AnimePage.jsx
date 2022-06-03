@@ -5,6 +5,7 @@ import {
 } from "../../../apis/jikan/jikan_api_requests";
 import { useEffect, useState } from "react";
 import AnimeHero from "./AnimeHero/AnimeHero";
+import Spinner from "../../../components/Spinner/Spinner";
 
 const AnimePage = ({ match }) => {
   const [anime, setAnime] = useState(null);
@@ -21,7 +22,7 @@ const AnimePage = ({ match }) => {
 
   return (
     <div className="anime-page">
-      {anime && <AnimeHero anime={anime} pictures={pictures} />}
+      {anime ? <AnimeHero anime={anime} pictures={pictures} /> : <Spinner />}
     </div>
   );
 };
