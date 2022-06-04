@@ -1,16 +1,13 @@
-.anime-hero {
-  width: 100%;
-}
-
 .banner {
   width: 100%;
-  height: 50%;
+  height: 400px;
 }
 
 .about-anime {
   display: flex;
   width: 95%;
   margin: auto;
+  padding-top: 2rem;
 }
 
 .poster img {
@@ -51,6 +48,11 @@
 .anime-hero-synopsis p {
   font-weight: bold;
   margin-bottom: 4px;
+  color: #eeebdd;
+}
+
+.anime-hero-synopsis {
+  color: #a1a1a1;
 }
 
 @media screen and (max-width: 850px) {

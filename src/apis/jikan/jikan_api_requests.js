@@ -19,3 +19,8 @@ export const getAnimePicturesById = async (id) => {
   const { data } = await jikan.get(`/anime/${id}/pictures`);
   return data;
 };
+
+export const getAnimeCharactersById = async (id) => {
+  const { data } = await jikan.get(`/anime/${id}/characters`);
+  return data;
+};

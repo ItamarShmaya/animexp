@@ -3,24 +3,7 @@ import "./AnimeHero.css";
 
 const AnimeHero = ({ anime, pictures }) => {
   const [bannerBg, setBannerBg] = useState(null);
-  const navbar = document.querySelector(".navbar");
-  const {
-    title,
-    synopsis,
-    status,
-    type,
-    year,
-    episodes,
-    genres,
-    images,
-    popularity,
-    score,
-    rank,
-    rating,
-    source,
-    studios,
-    themes,
-  } = anime;
+  const { title, synopsis, images, popularity, score, rank } = anime;
 
   useEffect(() => {
     setBannerPicture();
@@ -36,10 +19,7 @@ const AnimeHero = ({ anime, pictures }) => {
   };
 
   return (
-    <div
-      className="anime-hero"
-      style={{ height: `calc(100vh - ${navbar.clientHeight}px)` }}
-    >
+    <div className="anime-hero">
       <div
         className="banner"
         style={{
