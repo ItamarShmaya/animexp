@@ -16,8 +16,8 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [doesUserExist, setDoesUserExist] = useState(false);
-  const [isCorrectPassword, setIsCorrectPassword] = useState(false);
+  const [doesUserExist, setDoesUserExist] = useState(null);
+  const [isCorrectPassword, setIsCorrectPassword] = useState(null);
   const { setLoggedInUser } = useLoggedInUser();
   const { setIsUserLoggedIn } = useIsUserLoggedIn();
 
@@ -30,11 +30,12 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
   }, []);
 
   useEffect(() => {
-    if (!doesUserExist || !isCorrectPassword) {
-      setDoesUserExist(false);
-      setIsCorrectPassword(false);
+    if (doesUserExist === false || isCorrectPassword === false) {
+      setDoesUserExist(null);
+      setIsCorrectPassword(null);
     }
-  }, [username, password, doesUserExist, isCorrectPassword]);
+    // eslint-disable-next-line
+  }, [username, password]);
 
   const onLoginSubmit = (e) => {
     e.preventDefault();
@@ -47,6 +48,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
         setLoggedInUser(user);
         setIsUserLoggedIn(true);
         setOpen(false);
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
         return;
       } else {
         setIsCorrectPassword(false);
@@ -61,7 +63,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
           <h1>Sign In</h1>
           <div className="input-group">
             <label htmlFor="username">Username</label>
-            {!doesUserExist && (
+            {doesUserExist === false && (
               <span className="wrong-info-alert">Username doesn't exist</span>
             )}
             <input
@@ -73,7 +75,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
           </div>
           <div className="input-group">
             <label htmlFor="password">Password</label>
-            {!isCorrectPassword && (
+            {isCorrectPassword === false && (
               <span className="wrong-info-alert">Incorrect Password</span>
             )}
             <input

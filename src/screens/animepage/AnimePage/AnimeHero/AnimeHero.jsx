@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import "./AnimeHero.css";
+import AddToListButton from "../../../../components/AddToListButton/AddToListButton";
+import { isAnimeInList } from "../../../../apis/mockapi/mockapi_actions";
+import {
+  useLoggedInUser,
+  useIsUserLoggedIn,
+} from "../../../../context/context_custom_hooks";
 
 const AnimeHero = ({ anime, pictures }) => {
   const [bannerBg, setBannerBg] = useState(null);
   const { title, synopsis, images, popularity, score, rank } = anime;
+  const { loggedInUser } = useLoggedInUser();
+  const { isUserLoggedIn } = useIsUserLoggedIn();
 
   useEffect(() => {
     setBannerPicture();
@@ -16,6 +24,15 @@ const AnimeHero = ({ anime, pictures }) => {
         break;
       }
     }
+  };
+
+  const renderAddToButton = () => {
+    if (isUserLoggedIn) {
+      if (isAnimeInList(loggedInUser, anime.mal_id)) {
+        return <div>Watching</div>;
+      }
+    }
+    return <AddToListButton anime={anime} />;
   };
 
   return (
@@ -33,6 +50,7 @@ const AnimeHero = ({ anime, pictures }) => {
       <div className="about-anime">
         <div className="poster">
           <img alt={title} src={images.jpg.image_url} />
+          <div className="add-to-list-container">{renderAddToButton()}</div>
         </div>
         <div className="anime-info">
           <div className="anime-stats">

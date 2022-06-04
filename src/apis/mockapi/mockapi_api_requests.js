@@ -9,3 +9,8 @@ export const addUser = async (user) => {
   const { data } = await mockapi.post("/users", user);
   return data;
 };
+
+export const addAnimeToUserList = async (id, body) => {
+  const res = await mockapi.put(`/users/${id}`, body);
+  return res;
+};

@@ -32,12 +32,13 @@ const Navbar = () => {
     }
   }, [open]);
 
-  const renderLoginOrLogout = () => {
-    const onLogoutButtonClick = () => {
-      setLoggedInUser(null);
-      setIsUserLoggedIn(false);
-    };
+  const onLogoutButtonClick = () => {
+    setLoggedInUser(null);
+    setIsUserLoggedIn(false);
+    localStorage.removeItem("loggedInUser");
+  };
 
+  const renderLoginOrLogout = () => {
     if (isUserLoggedIn) {
       return (
         <div className="navbar-right nav-item" onClick={onLogoutButtonClick}>

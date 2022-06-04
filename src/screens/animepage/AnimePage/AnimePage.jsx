@@ -35,6 +35,12 @@ const AnimePage = ({
         setCharacters(charactersResponse.data);
       } catch (e) {
         console.log(e);
+        if (e.response.data.status === "429") {
+          await sleep(1000);
+          getData();
+        } else {
+          console.log("Failed to fetch data");
+        }
       }
     };
     getData();

@@ -3,8 +3,12 @@ import { createContext, useState } from "react";
 export const LoggedInUserContext = createContext({});
 
 const LoggedInUserProvider = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState({});
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(
+    JSON.parse(localStorage.getItem("loggedInUser")) || {}
+  );
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("loggedInUser")) ? true : false
+  );
 
   return (
     <LoggedInUserContext.Provider
