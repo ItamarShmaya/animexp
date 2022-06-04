@@ -16,10 +16,10 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [doesUserExist, setDoesUserExist] = useState(null);
-  const [isCorrectPassword, setIsCorrectPassword] = useState(null);
-  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
-  const { isUserLoggedIn, setIsUserLoggedIn } = useIsUserLoggedIn();
+  const [doesUserExist, setDoesUserExist] = useState(false);
+  const [isCorrectPassword, setIsCorrectPassword] = useState(false);
+  const { setLoggedInUser } = useLoggedInUser();
+  const { setIsUserLoggedIn } = useIsUserLoggedIn();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,10 +31,10 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
 
   useEffect(() => {
     if (!doesUserExist || !isCorrectPassword) {
-      setDoesUserExist(null);
-      setIsCorrectPassword(null);
+      setDoesUserExist(false);
+      setIsCorrectPassword(false);
     }
-  }, [username, password]);
+  }, [username, password, doesUserExist, isCorrectPassword]);
 
   const onLoginSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +61,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
           <h1>Sign In</h1>
           <div className="input-group">
             <label htmlFor="username">Username</label>
-            {doesUserExist === false && (
+            {!doesUserExist && (
               <span className="wrong-info-alert">Username doesn't exist</span>
             )}
             <input
@@ -73,7 +73,7 @@ const LoginWindow = ({ formWrapperRef, setOpen }) => {
           </div>
           <div className="input-group">
             <label htmlFor="password">Password</label>
-            {isCorrectPassword === false && (
+            {!isCorrectPassword && (
               <span className="wrong-info-alert">Incorrect Password</span>
             )}
             <input

@@ -9,41 +9,36 @@ import AnimeHero from "./AnimeHero/AnimeHero";
 import Spinner from "../../../components/Spinner/Spinner";
 import AnimeContent from "./AnimeContent/AnimeContent";
 
-const AnimePage = ({ match }) => {
+const AnimePage = ({
+  match: {
+    params: { id },
+  },
+}) => {
   const [anime, setAnime] = useState(null);
   const [pictures, setPictures] = useState(null);
   const [characters, setCharacters] = useState(null);
 
+  const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
   useEffect(() => {
-    const getAnime = async () => {
-      const { params } = match;
-      const anime = await getAnimeById(params.id);
-      setAnime(anime.data);
-      const picturesResponse = await getAnimePicturesById(params.id);
-      setPictures(picturesResponse.data);
-      const charactersResponse = await getAnimeCharactersById(params.id);
-      setCharacters(charactersResponse.data);
-      // try {
-      //   const anime = await getAnimeById(params.id);
-      //   setAnime(anime.data);
-      // } catch (e) {
-      //   console.log(e);
-      // }
-      // try {
-      //   const picturesResponse = await getAnimePicturesById(params.id);
-      //   setPictures(picturesResponse.data);
-      // } catch (e) {
-      //   console.log(e);
-      // }
-      // try {
-      //   const charactersResponse = await getAnimeCharactersById(params.id);
-      //   setCharacters(charactersResponse.data);
-      // } catch (e) {
-      //   console.log(e);
-      // }
+    const getData = async () => {
+      try {
+        const anime = await getAnimeById(id);
+        setAnime(anime.data);
+        await sleep(500);
+        const picturesResponse = await getAnimePicturesById(id);
+        setPictures(picturesResponse.data);
+        await sleep(500);
+        const charactersResponse = await getAnimeCharactersById(id);
+        setCharacters(charactersResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
     };
-    getAnime();
-  }, []);
+    getData();
+  }, [id]);
 
   return (
     <div className="anime-page">

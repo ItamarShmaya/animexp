@@ -11,7 +11,7 @@ import {
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const formWrapperRef = useRef();
-  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
+  const { setLoggedInUser } = useLoggedInUser();
   const { isUserLoggedIn, setIsUserLoggedIn } = useIsUserLoggedIn();
 
   useEffect(() => {

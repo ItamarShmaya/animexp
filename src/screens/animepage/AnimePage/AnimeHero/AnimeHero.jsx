@@ -7,7 +7,7 @@ const AnimeHero = ({ anime, pictures }) => {
 
   useEffect(() => {
     setBannerPicture();
-  }, []);
+  });
 
   const setBannerPicture = () => {
     for (let i = 0; i < pictures.length; i++) {
@@ -37,11 +37,16 @@ const AnimeHero = ({ anime, pictures }) => {
         <div className="anime-info">
           <div className="anime-stats">
             <div className="anime-hero-score">
-              Score: {!score ? "N/A" : score}
+              Score: <br />
+              <i className="fa-solid fa-star"></i> {!score ? "N/A" : score}
             </div>
-            <div className="anime-hero-rank">Rank: #{!rank ? "N/A" : rank}</div>
+            <div className="anime-hero-rank">
+              Rank: <br /> <i className="fa-solid fa-trophy"></i> #
+              {!rank ? "N/A" : rank}
+            </div>
             <div className="anime-hero-popularity">
-              Popularity: #{!popularity ? "N/A" : popularity}
+              Popularity: <br /> <i className="fa-solid fa-heart"></i> #
+              {!popularity ? "N/A" : popularity}
             </div>
           </div>
           <div className="title-synopsis">

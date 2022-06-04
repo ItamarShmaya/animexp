@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const SignupPage = () => {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
@@ -15,13 +15,13 @@ const SignupPage = () => {
 
   useEffect(() => {
     if (isUsernameTaken) setIsUsernameTaken(false);
-  }, [username]);
+  }, [username, isUsernameTaken]);
 
   const onSignUpSubmit = async (e) => {
     e.preventDefault();
     if (isValidPassword(password) && isValidUsername(username)) {
       const users = await getUsers("/users");
-      setUsers(users);
+      // setUsers(users);
       if (doesUsernameExist(username, users)) {
         setIsUsernameTaken(true);
         return;

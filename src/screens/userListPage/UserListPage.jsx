@@ -1,11 +1,11 @@
 import "./UserListPage.css";
 import {
-  useLoggedInUser,
+  // useLoggedInUser,
   useIsUserLoggedIn,
 } from "../../context/context_custom_hooks";
 const UserListPage = () => {
-  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
-  const { isUserLoggedIn, setIsUderLoggedIn } = useIsUserLoggedIn();
+  // const { loggedInUser, setLoggedInUser } = useLoggedInUser();
+  const { isUserLoggedIn } = useIsUserLoggedIn();
 
   return (
     <>

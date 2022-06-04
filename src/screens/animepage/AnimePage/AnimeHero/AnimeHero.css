@@ -27,7 +27,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 20px;
+  line-height: 2rem;
 }
 
 .title-synopsis {
@@ -55,6 +56,17 @@
   color: #a1a1a1;
 }
 
+.fa-star {
+  color: rgb(255, 235, 53);
+}
+
+.fa-heart {
+  color: rgb(255, 17, 97);
+}
+
+.fa-trophy {
+  color: gold;
+}
 @media screen and (max-width: 850px) {
   .about-anime {
     flex-direction: column;
