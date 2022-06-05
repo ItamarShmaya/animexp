@@ -19,7 +19,6 @@ const AnimeListItem = ({ anime, username, setAnimeList }) => {
   const commentRef = useRef();
   const { title, image, episodes, progress, type, comment, mal_id } = anime;
 
-  console.log(loggedInUser);
   useEffect(() => {
     if (isUserLoggedIn && loggedInUser.username === username) {
       setIsLoggedInUserList(true);
