@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import Logo from "../Logo/Logo";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import LoginWindow from "../LoginWindow/LoginWindow";
 import {
@@ -13,6 +13,7 @@ const Navbar = () => {
   const formWrapperRef = useRef();
   const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   const { isUserLoggedIn, setIsUserLoggedIn } = useIsUserLoggedIn();
+  const history = useHistory();
 
   useEffect(() => {
     if (open) {
@@ -35,6 +36,8 @@ const Navbar = () => {
     setLoggedInUser({});
     setIsUserLoggedIn(false);
     localStorage.removeItem("loggedInUser");
+    console.log(history);
+    history.push(`${history.location.pathname}`);
   };
 
   const renderLoginOrLogout = () => {

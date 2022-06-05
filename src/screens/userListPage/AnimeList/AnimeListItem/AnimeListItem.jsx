@@ -20,6 +20,7 @@ const AnimeListItem = ({ anime, username, setAnimeList }) => {
   const { title, image, episodes, progress, type, comment, mal_id } = anime;
 
   useEffect(() => {
+    setIsLoggedInUserList(false);
     if (isUserLoggedIn && loggedInUser.username === username) {
       setIsLoggedInUserList(true);
     }
