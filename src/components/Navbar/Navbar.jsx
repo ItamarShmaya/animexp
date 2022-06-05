@@ -32,7 +32,7 @@ const Navbar = () => {
   }, [open]);
 
   const onLogoutButtonClick = () => {
-    setLoggedInUser(null);
+    setLoggedInUser({});
     setIsUserLoggedIn(false);
     localStorage.removeItem("loggedInUser");
   };
