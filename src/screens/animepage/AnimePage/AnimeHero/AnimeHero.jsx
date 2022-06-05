@@ -14,6 +14,7 @@ const AnimeHero = ({ anime, pictures }) => {
   const { loggedInUser } = useLoggedInUser();
   const { isUserLoggedIn } = useIsUserLoggedIn();
   const [freshUserData, setFreshUserData] = useState(loggedInUser);
+  const [watching, setWatching] = useState(false);
 
   useEffect(() => {
     setBannerPicture();
@@ -38,11 +39,11 @@ const AnimeHero = ({ anime, pictures }) => {
 
   const renderAddToButton = () => {
     if (isUserLoggedIn) {
-      if (isAnimeInList(freshUserData, anime.mal_id)) {
+      if (isAnimeInList(freshUserData, anime.mal_id) || watching) {
         return <div>Watching</div>;
       }
     }
-    return <AddToListButton anime={anime} />;
+    return <AddToListButton anime={anime} setWatching={setWatching} />;
   };
 
   return (

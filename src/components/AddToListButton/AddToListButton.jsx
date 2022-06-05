@@ -17,7 +17,7 @@ const MustBeLoggedIn = ({ setDisplayMessage }) => {
   );
 };
 
-const AddToListButton = ({ anime }) => {
+const AddToListButton = ({ anime, setWatching }) => {
   const { isUserLoggedIn } = useIsUserLoggedIn();
   const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -42,6 +42,7 @@ const AddToListButton = ({ anime }) => {
       await addAnimeToUserList(loggedInUser.id, user);
       setLoggedInUser(user);
       localStorage.setItem("loggedInUser", JSON.stringify(user));
+      setWatching(true);
     }
   };
   return (
