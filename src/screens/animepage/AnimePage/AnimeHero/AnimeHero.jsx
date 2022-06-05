@@ -6,12 +6,14 @@ import {
   useLoggedInUser,
   useIsUserLoggedIn,
 } from "../../../../context/context_custom_hooks";
+import { getUserById } from "../../../../apis/mockapi/mockapi_api_requests";
 
 const AnimeHero = ({ anime, pictures }) => {
   const [bannerBg, setBannerBg] = useState(null);
   const { title, synopsis, images, popularity, score, rank } = anime;
   const { loggedInUser } = useLoggedInUser();
   const { isUserLoggedIn } = useIsUserLoggedIn();
+  const [freshUserData, setFreshUserData] = useState(loggedInUser);
 
   useEffect(() => {
     setBannerPicture();
@@ -26,9 +28,17 @@ const AnimeHero = ({ anime, pictures }) => {
     }
   };
 
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await getUserById(loggedInUser.id);
+      setFreshUserData(userData);
+    };
+    getUserData();
+  }, [loggedInUser.id]);
+
   const renderAddToButton = () => {
     if (isUserLoggedIn) {
-      if (isAnimeInList(loggedInUser, anime.mal_id)) {
+      if (isAnimeInList(freshUserData, anime.mal_id)) {
         return <div>Watching</div>;
       }
     }
