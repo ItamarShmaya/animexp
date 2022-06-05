@@ -1,0 +1,19 @@
+.list-item {
+  font-size: 1.5rem;
+  color: #eeebdd;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 2fr;
+  align-items: center;
+  justify-items: center;
+  border-bottom: 2px solid #ce1212;
+  padding: 1rem 0;
+}
+
+.mylist-item-img-container img {
+  width: 50px;
+  height: 70px;
+}
+
+.editable:hover {
+  cursor: pointer;
+}

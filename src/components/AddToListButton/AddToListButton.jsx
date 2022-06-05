@@ -35,6 +35,7 @@ const AddToListButton = ({ anime }) => {
         type,
         episodes,
         comment: "",
+        progress: 1,
       };
       const user = { ...loggedInUser };
       user.list = [...user.list, animeEntry];

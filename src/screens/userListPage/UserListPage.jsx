@@ -1,17 +1,35 @@
 import "./UserListPage.css";
-import {
-  // useLoggedInUser,
-  useIsUserLoggedIn,
-} from "../../context/context_custom_hooks";
-const UserListPage = () => {
-  // const { loggedInUser, setLoggedInUser } = useLoggedInUser();
-  const { isUserLoggedIn } = useIsUserLoggedIn();
+import { findUserByUsername } from "../../apis/mockapi/mockapi_actions";
+import AnimeList from "./AnimeList/AnimeList";
+import { useEffect, useState } from "react";
+import Spinner from "../../components/Spinner/Spinner";
+const UserListPage = ({ match }) => {
+  const [userList, setUserList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getAnimeList = async () => {
+      const username = match.params.username;
+      const user = await findUserByUsername(username);
+      setUserList(user.list);
+      setIsLoading(false);
+    };
+    getAnimeList();
+  }, [match.params.username]);
 
   return (
     <>
-      <div>
-        {isUserLoggedIn ? "asdsa" : "Must be logged in to view this page"}
-      </div>
+      <>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <AnimeList
+            animeList={userList}
+            setAnimeList={setUserList}
+            username={match.params.username}
+          />
+        )}
+      </>
     </>
   );
 };

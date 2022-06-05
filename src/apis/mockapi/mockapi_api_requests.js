@@ -14,3 +14,13 @@ export const addAnimeToUserList = async (id, body) => {
   const res = await mockapi.put(`/users/${id}`, body);
   return res;
 };
+
+export const updateValuesInUserList = async (id, body) => {
+  const res = await mockapi.put(`/users/${id}`, body);
+  return res;
+};
+
+export const getUserById = async (id) => {
+  const { data } = await mockapi.get(`/users/${id}`);
+  return data;
+};

@@ -1,3 +1,5 @@
+import { getUsers } from "./mockapi_api_requests";
+
 export const doesUsernameExist = (username, users) => {
   return users.find((user) => user.username === username) ? true : false;
 };
@@ -16,4 +18,11 @@ export const isAnimeInList = (user, animeId) => {
   })
     ? true
     : false;
+};
+
+export const findUserByUsername = async (username) => {
+  const users = await getUsers();
+  return users.find((user) => {
+    return user.username === username;
+  });
 };

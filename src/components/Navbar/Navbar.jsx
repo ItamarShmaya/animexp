@@ -11,13 +11,12 @@ import {
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const formWrapperRef = useRef();
-  const { setLoggedInUser } = useLoggedInUser();
+  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   const { isUserLoggedIn, setIsUserLoggedIn } = useIsUserLoggedIn();
 
   useEffect(() => {
     if (open) {
       const onBodyClick = ({ target }) => {
-        console.log();
         if (formWrapperRef.current.contains(target)) return;
         setOpen(false);
       };
@@ -73,9 +72,14 @@ const Navbar = () => {
           <NavLink className="nav-item" to="/">
             Home
           </NavLink>
-          <NavLink className="nav-item" to="/mylist">
-            My List
-          </NavLink>
+          {isUserLoggedIn && (
+            <NavLink
+              className="nav-item"
+              to={`/profile/${loggedInUser.username}`}
+            >
+              My Profle
+            </NavLink>
+          )}
         </div>
         {renderLoginOrLogout()}
       </nav>
