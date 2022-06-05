@@ -4,7 +4,11 @@ import {
   useLoggedInUser,
 } from "../../context/context_custom_hooks";
 import { useState } from "react";
-import { addAnimeToUserList } from "../../apis/mockapi/mockapi_api_requests";
+import {
+  addAnimeToUserList,
+  getUserById,
+} from "../../apis/mockapi/mockapi_api_requests";
+import { isAnimeInList } from "../../apis/mockapi/mockapi_actions";
 
 const MustBeLoggedIn = ({ setDisplayMessage }) => {
   return (
@@ -27,6 +31,13 @@ const AddToListButton = ({ anime, setWatching }) => {
       setDisplayMessage(true);
       return;
     } else {
+      const user = { ...(await getUserById(loggedInUser.id)) };
+
+      if (isAnimeInList(user, anime.mal_id)) {
+        setWatching(true);
+        return;
+      }
+
       const { mal_id, title, images, type, episodes } = anime;
       const animeEntry = {
         mal_id,
@@ -37,7 +48,7 @@ const AddToListButton = ({ anime, setWatching }) => {
         comment: "",
         progress: 1,
       };
-      const user = { ...loggedInUser };
+
       user.list = [...user.list, animeEntry];
       await addAnimeToUserList(loggedInUser.id, user);
       setLoggedInUser(user);
