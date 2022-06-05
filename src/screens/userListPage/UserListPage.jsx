@@ -3,6 +3,7 @@ import { findUserByUsername } from "../../apis/mockapi/mockapi_actions";
 import AnimeList from "./AnimeList/AnimeList";
 import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner/Spinner";
+
 const UserListPage = ({ match }) => {
   const [userAnimeList, setUserAnimeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +15,7 @@ const UserListPage = ({ match }) => {
       setIsLoading(false);
     };
     getAnimeList();
-  }, [match.params.username]);
+  });
 
   return (
     <>
