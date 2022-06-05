@@ -15,7 +15,7 @@ const UserListPage = ({ match }) => {
       setIsLoading(false);
     };
     getAnimeList();
-  });
+  }, [match.params.username]);
 
   return (
     <>
