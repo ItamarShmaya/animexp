@@ -7,7 +7,7 @@ import {
   useIsUserLoggedIn,
 } from "../../../../context/context_custom_hooks";
 
-const AnimeListItem = ({ anime, username, setAnimeList }) => {
+const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
   const [progressEditMode, setProgressEditMode] = useState(false);
   const [commentEditMode, setCommentEditMode] = useState(false);
   const [progressInput, setProgressInput] = useState("");
@@ -30,6 +30,8 @@ const AnimeListItem = ({ anime, username, setAnimeList }) => {
     const newUserData = { ...loggedInUser };
     newUserData.list = newUserData.list.map((anime) => {
       if (anime.mal_id === mal_id) {
+        if (keyToUpdate === "progress" && value > episodes) value = episodes;
+        else if (keyToUpdate === "progress" && value < 1) value = 1;
         anime[keyToUpdate] = value;
       }
       return anime;
@@ -38,7 +40,7 @@ const AnimeListItem = ({ anime, username, setAnimeList }) => {
     updateValuesInUserList(loggedInUser.id, newUserData);
     setLoggedInUser(newUserData);
     localStorage.setItem("loggedInUser", JSON.stringify(newUserData));
-    setAnimeList(newUserData.list);
+    setUserAnimeList(newUserData.list);
   };
 
   useEffect(() => {
@@ -135,6 +137,21 @@ const AnimeListItem = ({ anime, username, setAnimeList }) => {
     }
   };
 
+  const onDeleteClick = () => {
+    const newUserData = { ...loggedInUser };
+    let indexToDelete = null;
+    newUserData.list.forEach((anime, i) => {
+      if (anime.mal_id === mal_id) indexToDelete = i;
+    });
+    const newUserAnimeList = [...newUserData.list];
+    newUserAnimeList.splice(indexToDelete, 1);
+    newUserData.list = newUserAnimeList;
+    updateValuesInUserList(loggedInUser.id, newUserData);
+    setLoggedInUser(newUserData);
+    localStorage.setItem("loggedInUser", JSON.stringify(newUserData));
+    setUserAnimeList(newUserData.list);
+  };
+
   return (
     <div className="list-item">
       <div className="mylist-item-img-container">
@@ -146,6 +163,11 @@ const AnimeListItem = ({ anime, username, setAnimeList }) => {
       <div className="mylist-item-type">{type}</div>
       <div className="mylist-item-episodes">{renderProgressCol()}</div>
       <div className="mylist-item-comment">{renderCommentCol()}</div>
+      <div className="mylist-item-delete">
+        <button className="delete-button" onClick={onDeleteClick}>
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

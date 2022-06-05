@@ -2,7 +2,7 @@
   font-size: 1.5rem;
   color: #eeebdd;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 2fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr 2fr 1fr;
   align-items: center;
   justify-items: center;
   border-bottom: 2px solid #ce1212;
@@ -15,5 +15,24 @@
 }
 
 .editable:hover {
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #ce1212;
+  color: #1b1717;
+  padding: 0.5rem 1rem;
+  border: 2px solid #1b1717;
+  font-weight: bold;
+  box-shadow: 1px 1px 1px #ce1212;
+  transition: all 0.1s linear;
+  border-radius: 5px;
+}
+
+.delete-button:active {
+  box-shadow: 1px 1px 1px #000 inset;
+}
+
+.delete-button:hover {
   cursor: pointer;
 }

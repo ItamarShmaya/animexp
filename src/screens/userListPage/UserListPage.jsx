@@ -4,14 +4,13 @@ import AnimeList from "./AnimeList/AnimeList";
 import { useEffect, useState } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 const UserListPage = ({ match }) => {
-  const [userList, setUserList] = useState([]);
+  const [userAnimeList, setUserAnimeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const getAnimeList = async () => {
       const username = match.params.username;
       const user = await findUserByUsername(username);
-      setUserList(user.list);
+      setUserAnimeList(user.list);
       setIsLoading(false);
     };
     getAnimeList();
@@ -24,8 +23,8 @@ const UserListPage = ({ match }) => {
           <Spinner />
         ) : (
           <AnimeList
-            animeList={userList}
-            setAnimeList={setUserList}
+            animeList={userAnimeList}
+            setUserAnimeList={setUserAnimeList}
             username={match.params.username}
           />
         )}
