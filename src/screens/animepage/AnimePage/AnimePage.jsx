@@ -23,6 +23,7 @@ const AnimePage = ({
   };
 
   useEffect(() => {
+    let waitingTime = 1000;
     const getData = async () => {
       try {
         const anime = await getAnimeById(id);
@@ -36,7 +37,8 @@ const AnimePage = ({
       } catch (e) {
         console.log(e);
         if (e.response.data.status === "429") {
-          await sleep(1000);
+          await sleep(waitingTime);
+          waitingTime += 100;
           getData();
         } else {
           console.log("Failed to fetch data");

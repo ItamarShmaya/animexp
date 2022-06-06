@@ -20,7 +20,6 @@ const CardsList = ({ list, type }) => {
 
   const settings = {
     infinite: true,
-    swipeToSlide: true,
     slidesToShow: 9,
     slidesToScroll: 9,
     lazyLoad: true,

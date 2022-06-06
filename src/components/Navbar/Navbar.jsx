@@ -36,7 +36,6 @@ const Navbar = () => {
     setLoggedInUser({});
     setIsUserLoggedIn(false);
     localStorage.removeItem("loggedInUser");
-    console.log(history);
     history.push(`${history.location.pathname}`);
   };
 

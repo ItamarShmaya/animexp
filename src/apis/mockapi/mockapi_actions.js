@@ -1,7 +1,11 @@
 import { getUsers } from "./mockapi_api_requests";
 
 export const doesUsernameExist = (username, users) => {
-  return users.find((user) => user.username === username) ? true : false;
+  return users.find(
+    (user) => user.username.toLowerCase() === username.toLowerCase()
+  )
+    ? true
+    : false;
 };
 
 export const getUserByUsername = (username, users) => {

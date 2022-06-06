@@ -1,45 +1,77 @@
 import "./SignupPage.css";
 import Logo from "../../components/Logo/Logo";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { doesUsernameExist } from "../../apis/mockapi/mockapi_actions";
 import { addUser, getUsers } from "../../apis/mockapi/mockapi_api_requests";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
+const PWD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,24})/;
+
 const SignupPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [retypePwd, setRetypePwd] = useState("");
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
+  const [isInvalidUsername, seIisInvalidUsername] = useState(false);
+  const [isInvalidPassword, setIsInvalidPassword] = useState(false);
+  const [pwdMatch, setPwdMatch] = useState(true);
+  const [eyeIcon, setEyeIcon] = useState("fa-eye");
+  const pwdRef = useRef();
   const history = useHistory();
 
   useEffect(() => {
     if (isUsernameTaken) setIsUsernameTaken(false);
-  }, [username, isUsernameTaken]);
+    username.length > 0 && !USER_REGEX.test(username)
+      ? seIisInvalidUsername(true)
+      : seIisInvalidUsername(false);
+    // eslint-disable-next-line
+  }, [username]);
+
+  useEffect(() => {
+    password.length > 0 && !PWD_REGEX.test(password)
+      ? setIsInvalidPassword(true)
+      : setIsInvalidPassword(false);
+  }, [password]);
+
+  useEffect(() => {
+    if (!pwdMatch) setPwdMatch(true);
+    // eslint-disable-next-line
+  }, [retypePwd]);
 
   const onSignUpSubmit = async (e) => {
     e.preventDefault();
-    if (isValidPassword(password) && isValidUsername(username)) {
+    if (!isInvalidPassword && !isInvalidUsername) {
       const users = await getUsers("/users");
       if (doesUsernameExist(username, users)) {
         setIsUsernameTaken(true);
         return;
       } else {
-        const user = {
-          username,
-          password,
-        };
-        await addUser(user);
-        history.push("/");
+        if (retypePwd === password) {
+          setPwdMatch(true);
+          const user = {
+            username,
+            password,
+          };
+          await addUser(user);
+          history.push("/");
+        } else {
+          setPwdMatch(false);
+        }
       }
     }
   };
 
-  const isValidUsername = (username) => {
-    return username.length > 4;
-  };
-
-  const isValidPassword = (password) => {
-    return password.length > 4;
+  const onEyeIconClick = () => {
+    if (pwdRef.current.getAttribute("type") === "password") {
+      pwdRef.current.setAttribute("type", "text");
+      setEyeIcon("fa-eye-slash");
+    } else {
+      pwdRef.current.setAttribute("type", "password");
+      setEyeIcon("fa-eye");
+    }
   };
 
   return (
@@ -55,16 +87,57 @@ const SignupPage = () => {
             id="username"
             type="text"
             value={username}
+            placeholder="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
+          {isInvalidUsername && (
+            <span className="validty-message">
+              <i class="fa-solid fa-circle-exclamation"></i> 4 to 24 Characters.
+              <br />
+              Must begin with a letter.
+              <br />
+              Letters, numbers, underscores, hyphens allowed
+            </span>
+          )}
         </div>
         <div className="input-group">
           <label htmlFor="password">Password</label>
+          <div className="password">
+            <input
+              ref={pwdRef}
+              id="password"
+              type="password"
+              value={password}
+              placeholder="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+            <i
+              onClick={onEyeIconClick}
+              className={`fa-solid ${eyeIcon} eye-icon`}
+            ></i>
+          </div>
+          {isInvalidPassword && (
+            <span className="validty-message">
+              <i class="fa-solid fa-circle-exclamation"></i> 8 to 24 Characters.
+              <br />
+              Must include uppercase and lowercase letters, a number and a
+              special character.
+              <br />
+              allowed special characters: !@#$%^&*
+            </span>
+          )}
+        </div>
+        <div className="input-group">
+          <label htmlFor="retypePwd">Retype password</label>
+          {!pwdMatch && (
+            <span className="wrong-info-alert">Password does not match</span>
+          )}
           <input
-            id="password"
+            id="retypePwd"
             type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
+            value={retypePwd}
+            placeholder="Retype password"
+            onChange={({ target }) => setRetypePwd(target.value)}
           />
         </div>
         <button className="btn">Sign Up</button>

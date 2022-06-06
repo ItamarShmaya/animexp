@@ -8,7 +8,7 @@ import { useLoggedInUser } from "../../context/context_custom_hooks";
 const UserListPage = ({ match }) => {
   const [userAnimeList, setUserAnimeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { setLoggedInUser } = useLoggedInUser();
+  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
 
   useEffect(() => {
     const getAnimeList = async () => {
@@ -16,8 +16,10 @@ const UserListPage = ({ match }) => {
       const user = await findUserByUsername(username);
       setUserAnimeList(user.list);
       setIsLoading(false);
-      setLoggedInUser(user);
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      if (loggedInUser.username === username) {
+        setLoggedInUser(user);
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
+      }
     };
     getAnimeList();
     // eslint-disable-next-line

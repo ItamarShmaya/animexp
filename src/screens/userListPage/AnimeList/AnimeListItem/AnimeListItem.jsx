@@ -163,11 +163,13 @@ const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
       <div className="mylist-item-type">{type}</div>
       <div className="mylist-item-episodes">{renderProgressCol()}</div>
       <div className="mylist-item-comment">{renderCommentCol()}</div>
-      <div className="mylist-item-delete">
-        <button className="delete-button" onClick={onDeleteClick}>
-          Delete
-        </button>
-      </div>
+      {isloggedInUserList && (
+        <div className="mylist-item-delete">
+          <button className="delete-button" onClick={onDeleteClick}>
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 };
