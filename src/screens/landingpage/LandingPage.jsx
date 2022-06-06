@@ -69,7 +69,7 @@ const LandingPage = () => {
     };
 
     const topCharacters = getLocalStorage("topCharacters");
-    !topCharacters ? fetchTopCharacters() : setTopCharacters(topAnime);
+    !topCharacters ? fetchTopCharacters() : setTopCharacters(topCharacters);
 
     return () => {
       if (id !== undefined) {
