@@ -57,7 +57,7 @@ const LandingPage = () => {
             <CardsList list={topManga} type="manga" />
           </section>
           <section className="landing-page-section">
-            <h1>Most Favorite Characters</h1>
+            <h1>Favorite Characters</h1>
             <CardsList list={topCharacters} type="characters" />
           </section>
         </div>
