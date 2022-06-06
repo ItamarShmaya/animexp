@@ -2,32 +2,61 @@ import "./CharactersAndActors.css";
 import CharacterActorCard from "./CharacterActorCard/CharacterActorCard";
 
 const CharactersAndActors = ({ characters }) => {
-  const renderCards = () => {
-    const charactersArray = [];
-    let i = 0;
-    while (charactersArray.length < 10) {
-      // console.log(characters);
-      const japVoiceActor = characters[i].voice_actors.find(
-        (actor) => actor.language.toLowerCase() === "japanese"
-      );
-      if (japVoiceActor) {
-        charactersArray.push(
-          <CharacterActorCard
-            key={characters[i].character.mal_id}
-            char={characters[i].character}
-            role={characters[i].role}
-            voiceActor={japVoiceActor}
-          />
-        );
+  const sortCharactersList = (characterList) => {
+    if (characterList.length <= 10) return characterList;
+
+    const sortedCharacterList = [];
+    for (let i = 0; sortedCharacterList.length < 10; i++) {
+      const character = characterList[i];
+      if (character.role.toLowerCase() === "main") {
+        sortedCharacterList.push(character);
+      } else {
+        if (
+          characterList.length - (i + 1) ===
+          10 - sortedCharacterList.length
+        ) {
+          sortedCharacterList.push(character);
+        } else {
+          for (let j = 0; j < character.voice_actors.length; j++) {
+            if (
+              character.voice_actors[j].language.toLowerCase() === "japanese"
+            ) {
+              sortedCharacterList.push(character);
+              break;
+            }
+          }
+        }
       }
-      i++;
     }
-    return charactersArray;
+    return sortedCharacterList;
   };
+
+  const renderCards = (characterList) => {
+    return characterList.map((character) => {
+      let voiceActor = null;
+      character.voice_actors.forEach((va, i) => {
+        if (i === character.voice_actors.length - 1 && !voiceActor) {
+          voiceActor = character.voice_actors[0];
+        }
+        if (va.language.toLowerCase() === "japanese") voiceActor = va;
+      });
+      return (
+        <CharacterActorCard
+          key={character.character.mal_id}
+          char={character.character}
+          role={character.role}
+          voiceActor={voiceActor}
+        />
+      );
+    });
+  };
+
   return (
     <>
       <h1 className="characters-header">Characters & Voice Actors</h1>
-      <div className="characters-container">{renderCards()}</div>
+      <div className="characters-container">
+        {renderCards(sortCharactersList(characters))}
+      </div>
     </>
   );
 };

@@ -34,8 +34,8 @@ const AnimeHero = ({ anime, pictures }) => {
       const userData = await getUserById(loggedInUser.id);
       setFreshUserData(userData);
     };
-    getUserData();
-  }, [loggedInUser.id]);
+    if (isUserLoggedIn) getUserData();
+  }, [loggedInUser.id, isUserLoggedIn]);
 
   const renderAddToButton = () => {
     if (isUserLoggedIn) {

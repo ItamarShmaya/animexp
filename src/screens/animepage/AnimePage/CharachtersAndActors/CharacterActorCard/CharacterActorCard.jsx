@@ -2,7 +2,6 @@ import "./CharacterActorCard.css";
 
 const CharacterActorCard = ({ char, role, voiceActor }) => {
   const { mal_id, images, name } = char;
-  const { language, person } = voiceActor;
 
   return (
     <div className="character-actor-card">
@@ -14,11 +13,18 @@ const CharacterActorCard = ({ char, role, voiceActor }) => {
         </div>
       </div>
       <div className="actor block">
-        <div className="some-info">
-          <span className="name">{person.name}</span>
-          <span className="language">{language}</span>
-        </div>
-        <img alt={person.mal_id} src={person.images.jpg.image_url} />
+        {voiceActor && (
+          <>
+            <div className="some-info">
+              <span className="name">{voiceActor.person.name}</span>
+              <span className="language">{voiceActor.language}</span>
+            </div>
+            <img
+              alt={voiceActor.person.mal_id}
+              src={voiceActor.person.images.jpg.image_url}
+            />
+          </>
+        )}
       </div>
     </div>
   );

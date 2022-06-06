@@ -7,38 +7,76 @@ import {
 import { useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CardsList from "../../components/CardsList/CardsList";
-import Spinner from "../../components/Spinner/Spinner";
+import { landingPageSliderSettings } from "../../components/ImageSlide/sliderSettings";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const LandingPage = () => {
-  const [topAnime, setTopAnime] = useState(null);
-  const [topManga, setTopManga] = useState(null);
-  const [topCharacters, setTopCharacters] = useState(null);
+  const [topAnime, setTopAnime] = useState([]);
+  const [topManga, setTopManga] = useState([]);
+  const [topCharacters, setTopCharacters] = useState([]);
+  const [getLocalStorage, setLocalStorage] = useLocalStorage();
 
   useEffect(() => {
+    let id;
     const fetchTopAnime = async () => {
-      const { data } = await getTopAnime();
-      setTopAnime(data);
-      window.localStorage.setItem("topAnime", JSON.stringify(data));
+      id = setTimeout(async () => {
+        const { data: anime } = await getTopAnime();
+        setTopAnime(anime);
+        setLocalStorage("topAnime", anime);
+      }, 1000);
     };
+
+    const topAnime = getLocalStorage("topAnime");
+    !topAnime ? fetchTopAnime() : setTopAnime(topAnime);
+
+    return () => {
+      if (id !== undefined) {
+        clearTimeout(id);
+      }
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    let id;
     const fetchTopManga = async () => {
-      const { data } = await getTopManga();
-      setTopManga(data);
-      window.localStorage.setItem("topManga", JSON.stringify(data));
+      id = setTimeout(async () => {
+        const { data: manga } = await getTopManga();
+        setTopManga(manga);
+        setLocalStorage("topManga", manga);
+      }, 1000);
     };
+
+    const topManga = getLocalStorage("topManga");
+    !topManga ? fetchTopManga() : setTopManga(topManga);
+
+    return () => {
+      if (id !== undefined) {
+        clearTimeout(id);
+      }
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    let id;
     const fetchTopCharacters = async () => {
-      const { data } = await getTopCharacters();
-      setTopCharacters(data);
-      window.localStorage.setItem("topCharacters", JSON.stringify(data));
+      id = setTimeout(async () => {
+        const { data: top25Characters } = await getTopCharacters();
+        setTopCharacters(top25Characters);
+        setLocalStorage("topCharacters", top25Characters);
+      }, 1000);
     };
-    if (!window.localStorage.getItem("topAnime")) fetchTopAnime();
-    else setTopAnime(JSON.parse(window.localStorage.getItem("topAnime")));
-    if (!window.localStorage.getItem("topManga")) fetchTopManga();
-    else setTopManga(JSON.parse(window.localStorage.getItem("topManga")));
-    if (!window.localStorage.getItem("topCharacters")) fetchTopCharacters();
-    else
-      setTopCharacters(
-        JSON.parse(window.localStorage.getItem("topCharacters"))
-      );
+
+    const topCharacters = getLocalStorage("topCharacters");
+    !topCharacters ? fetchTopCharacters() : setTopCharacters(topAnime);
+
+    return () => {
+      if (id !== undefined) {
+        clearTimeout(id);
+      }
+    };
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -46,24 +84,32 @@ const LandingPage = () => {
       <div className="hero">
         <SearchBar />
       </div>
-      {topAnime && topManga && topCharacters ? (
-        <div className="lists-container">
-          <section className="landing-page-section">
-            <h1>Top Anime</h1>
-            <CardsList list={topAnime} type="anime" />
-          </section>
-          <section className="landing-page-section">
-            <h1>Top Manga</h1>
-            <CardsList list={topManga} type="manga" />
-          </section>
-          <section className="landing-page-section">
-            <h1>Favorite Characters</h1>
-            <CardsList list={topCharacters} type="characters" />
-          </section>
-        </div>
-      ) : (
-        <Spinner />
-      )}
+      <div className="lists-container">
+        <section className="landing-page-section">
+          <h1>Top Anime</h1>
+          <CardsList
+            list={topAnime}
+            type="anime"
+            sliderSettings={landingPageSliderSettings}
+          />
+        </section>
+        <section className="landing-page-section">
+          <h1>Top Manga</h1>
+          <CardsList
+            list={topManga}
+            type="manga"
+            sliderSettings={landingPageSliderSettings}
+          />
+        </section>
+        <section className="landing-page-section">
+          <h1>Favorite Characters</h1>
+          <CardsList
+            list={topCharacters}
+            type="characters"
+            sliderSettings={landingPageSliderSettings}
+          />
+        </section>
+      </div>
     </>
   );
 };

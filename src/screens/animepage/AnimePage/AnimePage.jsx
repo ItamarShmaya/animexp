@@ -3,61 +3,114 @@ import {
   getAnimeById,
   getAnimePicturesById,
   getAnimeCharactersById,
+  getAnimeRecommendationsById,
+  // getAnimeReviewsById,
 } from "../../../apis/jikan/jikan_api_requests";
 import { useEffect, useState } from "react";
 import AnimeHero from "./AnimeHero/AnimeHero";
 import Spinner from "../../../components/Spinner/Spinner";
 import AnimeContent from "./AnimeContent/AnimeContent";
+import AnimeRecommendations from "./AnimeRecommendations/AnimeRecommendations";
+import Trailer from "./Trailer/Trailer";
 
 const AnimePage = ({
   match: {
     params: { id },
   },
 }) => {
-  const [anime, setAnime] = useState(null);
-  const [pictures, setPictures] = useState(null);
-  const [characters, setCharacters] = useState(null);
-
-  const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
+  const [anime, setAnime] = useState({});
+  const [pictures, setPictures] = useState({});
+  const [characters, setCharacters] = useState({});
+  const [recommendations, setRecommendations] = useState({});
 
   useEffect(() => {
-    let waitingTime = 1000;
-    const getData = async () => {
-      try {
-        const anime = await getAnimeById(id);
-        setAnime(anime.data);
-        await sleep(500);
-        const picturesResponse = await getAnimePicturesById(id);
-        setPictures(picturesResponse.data);
-        await sleep(500);
-        const charactersResponse = await getAnimeCharactersById(id);
-        setCharacters(charactersResponse.data);
-      } catch (e) {
-        console.log(e);
-        if (e.response.data.status === "429") {
-          await sleep(waitingTime);
-          waitingTime += 100;
-          getData();
-        } else {
-          console.log("Failed to fetch data");
-        }
+    let timeOutId;
+    const fetchAnimeData = async () => {
+      timeOutId = setTimeout(async () => {
+        const animeResponse = await getAnimeById(id);
+        setAnime(animeResponse.data);
+      }, 1000);
+    };
+    fetchAnimeData();
+    return () => {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
       }
     };
-    getData();
+    // eslint-disable-next-line
+  }, [id]);
+
+  useEffect(() => {
+    let timeOutId;
+    const fetchAnimePictures = async () => {
+      timeOutId = setTimeout(async () => {
+        const picturesResponse = await getAnimePicturesById(id);
+        setPictures(picturesResponse.data);
+      }, 1500);
+    };
+    fetchAnimePictures();
+    return () => {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+    };
+    // eslint-disable-next-line
+  }, [id]);
+  useEffect(() => {
+    let timeOutId;
+    const fetchAnimeCharacters = async () => {
+      timeOutId = setTimeout(async () => {
+        const charactersResponse = await getAnimeCharactersById(id);
+        setCharacters(charactersResponse.data);
+      }, 2000);
+    };
+    fetchAnimeCharacters();
+    return () => {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+    };
+    // eslint-disable-next-line
+  }, [id]);
+  useEffect(() => {
+    let timeOutId;
+    const fetchAnimeRecommendations = async () => {
+      timeOutId = setTimeout(async () => {
+        const recommendationResponse = await getAnimeRecommendationsById(id);
+        console.log(recommendationResponse);
+        recommendationResponse &&
+          setRecommendations(recommendationResponse.data);
+      }, 2500);
+    };
+    fetchAnimeRecommendations();
+    return () => {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+    };
+    // eslint-disable-next-line
   }, [id]);
 
   return (
     <div className="anime-page">
-      {anime && pictures && characters ? (
+      {Object.keys(anime).length > 0 &&
+      Object.keys(pictures).length > 0 &&
+      Object.keys(characters).length > 0 ? (
         <>
           <AnimeHero anime={anime} pictures={pictures} />
           <AnimeContent anime={anime} characters={characters} />
+          {Object.keys(recommendations).length > 0 && (
+            <AnimeRecommendations recommendations={recommendations} />
+          )}
+          {anime.trailer.embed_url && <Trailer trailer={anime.trailer} />}
         </>
       ) : (
         <Spinner />
       )}
+      {/* <AnimeHero anime={anime} pictures={pictures} />
+      <AnimeContent anime={anime} characters={characters} />
+      <AnimeRecommendations recommendations={recommendations} />
+      <Trailer trailer={anime.trailer} /> */}
     </div>
   );
 };

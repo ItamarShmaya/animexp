@@ -1,6 +1,6 @@
 import "./Card.css";
 
-const Card = ({ anime, index }) => {
+const Card = ({ anime, index, isReco, cardHeight = 225, cardWidth = 150 }) => {
   const { title, images, rank, name } = anime;
   return (
     <div
@@ -11,11 +11,13 @@ const Card = ({ anime, index }) => {
         backgroundPositionX: "center",
         backgroundPositionY: "center",
         backgroundSize: "cover",
+        width: `${cardWidth}px`,
+        height: `${cardHeight}px`,
       }}
     >
       <div className="card-content-wrapper">
         <div className="card-top">
-          <div className="card-rank">#{rank || index + 1}</div>
+          {!isReco && <div className="card-rank">#{rank || index + 1}</div>}
         </div>
         <div className="card-bottom">
           <h2>{title || name}</h2>
