@@ -8,16 +8,16 @@ import {
 } from "../../../../context/context_custom_hooks";
 
 const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
+  const { title, image, episodes, progress, type, comment, mal_id } = anime;
   const [progressEditMode, setProgressEditMode] = useState(false);
   const [commentEditMode, setCommentEditMode] = useState(false);
-  const [progressInput, setProgressInput] = useState("");
-  const [commentInput, setCommentInput] = useState("");
+  const [progressInput, setProgressInput] = useState(progress);
+  const [commentInput, setCommentInput] = useState(comment);
   const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   const { isUserLoggedIn } = useIsUserLoggedIn();
   const [isloggedInUserList, setIsLoggedInUserList] = useState(false);
   const progressRef = useRef();
   const commentRef = useRef();
-  const { title, image, episodes, progress, type, comment, mal_id } = anime;
 
   useEffect(() => {
     setIsLoggedInUserList(false);

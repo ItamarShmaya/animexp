@@ -42,27 +42,11 @@ const AnimePage = ({
 
   useEffect(() => {
     let timeOutId;
-    const fetchAnimePictures = async () => {
-      timeOutId = setTimeout(async () => {
-        const picturesResponse = await getAnimePicturesById(id);
-        setPictures(picturesResponse.data);
-      }, 1500);
-    };
-    fetchAnimePictures();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
-    };
-    // eslint-disable-next-line
-  }, [id]);
-  useEffect(() => {
-    let timeOutId;
     const fetchAnimeCharacters = async () => {
       timeOutId = setTimeout(async () => {
         const charactersResponse = await getAnimeCharactersById(id);
         setCharacters(charactersResponse.data);
-      }, 2000);
+      }, 1500);
     };
     fetchAnimeCharacters();
     return () => {
@@ -77,12 +61,28 @@ const AnimePage = ({
     const fetchAnimeRecommendations = async () => {
       timeOutId = setTimeout(async () => {
         const recommendationResponse = await getAnimeRecommendationsById(id);
-        console.log(recommendationResponse);
         recommendationResponse &&
           setRecommendations(recommendationResponse.data);
-      }, 2500);
+      }, 2000);
     };
     fetchAnimeRecommendations();
+    return () => {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+    };
+    // eslint-disable-next-line
+  }, [id]);
+
+  useEffect(() => {
+    let timeOutId;
+    const fetchAnimePictures = async () => {
+      timeOutId = setTimeout(async () => {
+        const picturesResponse = await getAnimePicturesById(id);
+        setPictures(picturesResponse.data);
+      }, 2500);
+    };
+    fetchAnimePictures();
     return () => {
       if (timeOutId) {
         clearTimeout(timeOutId);
@@ -97,7 +97,7 @@ const AnimePage = ({
       Object.keys(pictures).length > 0 &&
       Object.keys(characters).length > 0 ? (
         <>
-          <AnimeHero anime={anime} pictures={pictures} />
+          <AnimeHero anime={anime} pictures={pictures} animeId={id} />
           <AnimeContent anime={anime} characters={characters} />
           {Object.keys(recommendations).length > 0 && (
             <AnimeRecommendations recommendations={recommendations} />
@@ -107,10 +107,6 @@ const AnimePage = ({
       ) : (
         <Spinner />
       )}
-      {/* <AnimeHero anime={anime} pictures={pictures} />
-      <AnimeContent anime={anime} characters={characters} />
-      <AnimeRecommendations recommendations={recommendations} />
-      <Trailer trailer={anime.trailer} /> */}
     </div>
   );
 };

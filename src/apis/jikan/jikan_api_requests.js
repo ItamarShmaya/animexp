@@ -1,4 +1,31 @@
 import jikan from "./jikan";
+import { handlerSuspender } from "../api_utils/api_utils";
+
+export const fetchLandingPage = () => {
+  const TopAnimePromise = getTopAnime();
+  const TopMangaPromise = getTopManga();
+  const TopCharactersPromise = getTopCharacters();
+
+  return {
+    topAnime: handlerSuspender(TopAnimePromise),
+    topMana: handlerSuspender(TopMangaPromise),
+    topCharacters: handlerSuspender(TopCharactersPromise),
+  };
+};
+
+// export const fetchAnimePage = (id) => {
+//   const animePromise = getAnimeById(id);
+//   const animePicturesPromise = getAnimePicturesById(id);
+//   const animeCharactersPromise = getAnimeCharactersById(id);
+//   const animeRecommendationsPromise = getAnimeRecommendationsById(id);
+
+//   return {
+//     anime: handlerSuspender(animePromise),
+//     animePictures: handlerSuspender(animePicturesPromise),
+//     animeCharacters: handlerSuspender(animeCharactersPromise),
+//     animeRecommendations: handlerSuspender(animeRecommendationsPromise),
+//   };
+// };
 
 export const getAnimeBySearch = async (q) => {
   const { data } = await jikan.get("/anime", {
@@ -16,6 +43,7 @@ export const getAnimeById = async (id) => {
     return animeById;
   } catch (error) {
     console.error(error);
+    return error;
   }
 };
 
@@ -25,6 +53,7 @@ export const getAnimePicturesById = async (id) => {
     return pictures;
   } catch (error) {
     console.error(error);
+    return error;
   }
 };
 
@@ -36,34 +65,38 @@ export const getAnimeCharactersById = async (id) => {
     return charactersByAnime;
   } catch (error) {
     console.error(error);
+    return error;
   }
 };
 
 export const getTopAnime = async () => {
-  try {
-    const { data: anime } = await jikan.get("/top/anime");
-    return anime;
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  const { data: topAnime } = await jikan.get("/top/anime");
+  return topAnime;
+  // } catch (error) {
+  //   console.error(error);
+  //   return error;
+  // }
 };
 
 export const getTopManga = async () => {
-  try {
-    const { data: manga } = await jikan.get("/top/manga");
-    return manga;
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  const { data: topManga } = await jikan.get("/top/manga");
+  return topManga;
+  // } catch (error) {
+  //   console.error(error);
+  //   return error;
+  // }
 };
 
 export const getTopCharacters = async () => {
-  try {
-    const { data: top25Characters } = await jikan.get("/top/characters");
-    return top25Characters;
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  const { data: top25Characters } = await jikan.get("/top/characters");
+  return top25Characters;
+  // } catch (error) {
+  //   console.error(error);
+  //   return error;
+  // }
 };
 
 export const getAnimeRecommendationsById = async (id) => {
@@ -74,6 +107,7 @@ export const getAnimeRecommendationsById = async (id) => {
     return animeRecommendations;
   } catch (error) {
     console.error(error);
+    return error;
   }
 };
 

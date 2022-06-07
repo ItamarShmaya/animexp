@@ -8,7 +8,7 @@ import {
 } from "../../../../context/context_custom_hooks";
 import { getUserById } from "../../../../apis/mockapi/mockapi_api_requests";
 
-const AnimeHero = ({ anime, pictures }) => {
+const AnimeHero = ({ anime, pictures, animeId }) => {
   const [bannerBg, setBannerBg] = useState(null);
   const { title, synopsis, images, popularity, score, rank } = anime;
   const { loggedInUser } = useLoggedInUser();
@@ -26,6 +26,9 @@ const AnimeHero = ({ anime, pictures }) => {
         setBannerBg(pictures[i].jpg.image_url);
         break;
       }
+      if (i === pictures.length - 1) {
+        setBannerBg(pictures[0].jpg.image_url);
+      }
     }
   };
 
@@ -35,7 +38,7 @@ const AnimeHero = ({ anime, pictures }) => {
       setFreshUserData(userData);
     };
     if (isUserLoggedIn) getUserData();
-  }, [loggedInUser.id, isUserLoggedIn]);
+  }, [loggedInUser.id, isUserLoggedIn, animeId]);
 
   const renderAddToButton = () => {
     if (isUserLoggedIn) {
