@@ -8,6 +8,7 @@ const CardsList = ({ list, type, sliderSettings, cardHeight, cardWidth }) => {
     return list.map((listItem, i) => {
       return (
         <NavLink
+          className="card-wrapper"
           key={listItem.mal_id || listItem.entry.mal_id}
           to={`/${type}/${listItem.mal_id || listItem.entry.mal_id}`}
         >
