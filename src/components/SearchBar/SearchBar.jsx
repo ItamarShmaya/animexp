@@ -1,6 +1,9 @@
 import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
-import { getAnimeBySearch } from "../../apis/jikan/jikan_api_requests";
+import {
+  getAnimeBySearch,
+  getMangaBySearch,
+} from "../../apis/jikan/jikan_api_requests";
 import SearchResults from "./SearchResults/SearchResults";
 import { getUsersBySearch } from "../../apis/mockapi/mockapi_api_requests";
 
@@ -28,8 +31,10 @@ const SearchBar = () => {
       if (selectValue === "anime") {
         results = await getAnimeBySearch(debouncedSearchInput);
         setSearchType("anime");
-      }
-      if (selectValue === "users") {
+      } else if (selectValue === "manga") {
+        results = await getMangaBySearch(debouncedSearchInput);
+        setSearchType("manga");
+      } else if (selectValue === "users") {
         results = await getUsersBySearch(debouncedSearchInput);
         setSearchType("users");
       }
@@ -75,6 +80,7 @@ const SearchBar = () => {
             onChange={({ target }) => setSelectValue(target.value)}
           >
             <option value="anime">Anime</option>
+            <option value="manga">Manga</option>
             <option value="users">Users</option>
           </select>
           <input

@@ -162,3 +162,13 @@ export const getMangaRecommendationsById = async (id) => {
     return error;
   }
 };
+
+export const getMangaBySearch = async (q) => {
+  const { data: mangaResults } = await jikan.get("/manga", {
+    method: "GET",
+    params: {
+      q: q,
+    },
+  });
+  return mangaResults.data;
+};
