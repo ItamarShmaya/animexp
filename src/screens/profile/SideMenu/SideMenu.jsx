@@ -7,14 +7,16 @@ const SideMenu = ({ viewedUser }) => {
   return (
     <aside className="profile-side-menu">
       <NavLink
-        className="side-menu-item"
+        data-type={"List"}
+        className="side-menu-item side-menu-list"
         to={`/${viewedUser.username}/animelist`}
       >
         <i className="fa-solid fa-list"></i>
       </NavLink>
       {loggedInUser.username === viewedUser.username && (
         <NavLink
-          className="side-menu-item"
+          data-type={"Edit Profile"}
+          className="side-menu-item side-menu-edit"
           to={`/${viewedUser.username}/editprofile`}
         >
           <i className="fa-solid fa-pen-to-square"></i>

@@ -103,7 +103,12 @@ const AnimeListItem = ({ anime, username, setUserAnimeList, route }) => {
               max={episodes || 1}
             />
           ) : (
-            <span>{progress || 1}</span>
+            <span
+              className=" editable"
+              onClick={() => setProgressEditMode(true)}
+            >
+              {progress || 1}
+            </span>
           )}
           /{episodes || 1}
         </>
@@ -158,12 +163,7 @@ const AnimeListItem = ({ anime, username, setUserAnimeList, route }) => {
       </div>
       <div className="mylist-item-title">{title}</div>
       <div className="mylist-item-type">{type}</div>
-      <div
-        className="mylist-item-episodes editable"
-        onClick={() => setProgressEditMode(true)}
-      >
-        {renderProgressCol()}
-      </div>
+      <div className="mylist-item-episodes">{renderProgressCol()}</div>
       <div className="mylist-item-comment">{renderCommentCol()}</div>
       {isloggedInUserList && (
         <div className="mylist-item-delete">

@@ -14,9 +14,23 @@
   font-size: 2rem;
   color: #eeebdd;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .side-menu-item:hover {
   background-color: #810000;
   cursor: pointer;
+}
+
+.side-menu-edit:hover::after,
+.side-menu-list:hover::after {
+  font-size: 1rem;
+  position: absolute;
+  content: attr(data-type);
+  padding: 5px;
+  white-space: nowrap;
+  background-color: #fff;
+  color: black;
+  left: 100%;
+  pointer-events: none;
 }
