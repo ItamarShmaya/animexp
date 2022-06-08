@@ -3,6 +3,7 @@ import CardsList from "../../../../components/CardsList/CardsList";
 import { animePageRecommendationsSliderSettings } from "../../../../components/ImageSlide/sliderSettings";
 
 const AnimeRecommendations = ({ recommendations }) => {
+  console.log(recommendations);
   return (
     <div className="recommendations-container">
       <h1>Anime Recommendations</h1>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import SignupPage from "./screens/signupPage/SignupPage";
 import UserListPage from "./screens/userListPage/UserListPage";
@@ -8,6 +8,7 @@ import Profile from "./screens/profile/Profile";
 // import Spinner from "./components/Spinner/Spinner";
 import LandingPage from "./screens/landingpage/LandingPage";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import EditProfilePage from "./screens/editProfilePage/EditProfilePage/EditProfilePage";
 
 function App() {
   return (
@@ -25,18 +26,23 @@ function App() {
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/profile/:username" exact component={Profile} />
             <Route path="/:username/animelist" exact component={UserListPage} />
+            <Route
+              path="/:username/editprofile"
+              exact
+              component={EditProfilePage}
+            />
             <Route path="/anime/:id" exact component={AnimePage} />
             {/* <Route path="/anime/:id" exact>
             <Suspense fallback={<Spinner />}>
               <AnimePage />
             </Suspense>
           </Route> */}
-            {/* <Route
+            <Route
               path="*"
               render={() => {
                 return <Redirect to={"/"} />;
               }}
-            /> */}
+            />
           </ErrorBoundary>
         </Switch>
       </BrowserRouter>

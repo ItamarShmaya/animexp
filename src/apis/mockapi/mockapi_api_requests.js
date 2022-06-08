@@ -44,3 +44,38 @@ export const getUserById = async (id) => {
     console.error(error);
   }
 };
+
+export const getUsersBySearch = async (q) => {
+  const users = await getUsers();
+  const results = users.filter((user) => {
+    return user.username.toLowerCase().includes(q);
+  });
+  return results;
+};
+
+export const updateUserAvatarImage = async (id, body) => {
+  try {
+    const { data: user } = await mockapi.put(`/users/${id}`, body);
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateUserGender = async (id, body) => {
+  try {
+    const { data: user } = await mockapi.put(`/users/${id}`, body);
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateUserBirthday = async (id, body) => {
+  try {
+    const { data: user } = await mockapi.put(`/users/${id}`, body);
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
+};

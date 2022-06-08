@@ -70,33 +70,33 @@ export const getAnimeCharactersById = async (id) => {
 };
 
 export const getTopAnime = async () => {
-  // try {
-  const { data: topAnime } = await jikan.get("/top/anime");
-  return topAnime;
-  // } catch (error) {
-  //   console.error(error);
-  //   return error;
-  // }
+  try {
+    const { data: topAnime } = await jikan.get("/top/anime");
+    return topAnime;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 };
 
 export const getTopManga = async () => {
-  // try {
-  const { data: topManga } = await jikan.get("/top/manga");
-  return topManga;
-  // } catch (error) {
-  //   console.error(error);
-  //   return error;
-  // }
+  try {
+    const { data: topManga } = await jikan.get("/top/manga");
+    return topManga;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 };
 
 export const getTopCharacters = async () => {
-  // try {
-  const { data: top25Characters } = await jikan.get("/top/characters");
-  return top25Characters;
-  // } catch (error) {
-  //   console.error(error);
-  //   return error;
-  // }
+  try {
+    const { data: top25Characters } = await jikan.get("/top/characters");
+    return top25Characters;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 };
 
 export const getAnimeRecommendationsById = async (id) => {

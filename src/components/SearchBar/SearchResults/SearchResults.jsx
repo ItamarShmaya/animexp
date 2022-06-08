@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import "./SearchResults.css";
 import SearchResultsItem from "./SearchResultsItem/SearchResultsItem";
+import UsersSearchResults from "./UsersSearchResults/UsersSearchResults";
 
-const SearchResults = ({ results }) => {
+const SearchResults = ({ results, searchType }) => {
   const searchbar = document.querySelector(".searchbar");
   const navbar = document.querySelector(".navbar");
   const hero = document.querySelector(".hero");
@@ -11,10 +12,19 @@ const SearchResults = ({ results }) => {
     (searchbar.clientHeight + navbar.clientHeight + hero.clientHeight / 2);
 
   const renderedSearchResults = () => {
-    return results.map((result) => {
+    return results.map((anime) => {
       return (
-        <NavLink key={result.mal_id} to={`/anime/${result.mal_id}`}>
-          <SearchResultsItem anime={result} />;
+        <NavLink key={anime.mal_id} to={`/anime/${anime.mal_id}`}>
+          <SearchResultsItem anime={anime} />;
+        </NavLink>
+      );
+    });
+  };
+  const renderUsersResults = () => {
+    return results.map((user) => {
+      return (
+        <NavLink key={user.id} to={`/profile/${user.username}`}>
+          <UsersSearchResults user={user} />;
         </NavLink>
       );
     });
@@ -27,7 +37,8 @@ const SearchResults = ({ results }) => {
         height: `${searchResultsHeight}px`,
       }}
     >
-      {renderedSearchResults(results)}
+      {searchType === "anime" && renderedSearchResults(results)}
+      {searchType === "users" && renderUsersResults(results)}
     </div>
   );
 };

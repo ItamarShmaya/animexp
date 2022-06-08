@@ -14,6 +14,7 @@ const SignupPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [retypePwd, setRetypePwd] = useState("");
+  const [birthdayInput, setBirthdayInput] = useState("");
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
   const [isInvalidUsername, seIisInvalidUsername] = useState(false);
   const [isInvalidPassword, setIsInvalidPassword] = useState(false);
@@ -54,6 +55,11 @@ const SignupPage = () => {
           const user = {
             username,
             password,
+            personalInfo: {
+              birthday: birthdayInput,
+              gender: null,
+              joined: new Date(),
+            },
           };
           await addUser(user);
           history.push("/");
@@ -92,7 +98,8 @@ const SignupPage = () => {
           />
           {isInvalidUsername && (
             <span className="validty-message">
-              <i class="fa-solid fa-circle-exclamation"></i> 4 to 24 Characters.
+              <i className="fa-solid fa-circle-exclamation"></i> 4 to 24
+              Characters.
               <br />
               Must begin with a letter.
               <br />
@@ -118,7 +125,8 @@ const SignupPage = () => {
           </div>
           {isInvalidPassword && (
             <span className="validty-message">
-              <i class="fa-solid fa-circle-exclamation"></i> 8 to 24 Characters.
+              <i className="fa-solid fa-circle-exclamation"></i> 8 to 24
+              Characters.
               <br />
               Must include uppercase and lowercase letters, a number and a
               special character.
@@ -138,6 +146,17 @@ const SignupPage = () => {
             value={retypePwd}
             placeholder="Retype password"
             onChange={({ target }) => setRetypePwd(target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="birthday">Birthday</label>
+          <input
+            id="birthday"
+            type="date"
+            value={birthdayInput}
+            placeholder="Birthday"
+            onChange={({ target }) => setBirthdayInput(target.value)}
+            max={new Date().toISOString().slice(0, 10)}
           />
         </div>
         <button className="btn">Sign Up</button>

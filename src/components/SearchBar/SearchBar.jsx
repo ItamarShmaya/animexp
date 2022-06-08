@@ -2,11 +2,14 @@ import "./SearchBar.css";
 import { useEffect, useRef, useState } from "react";
 import { getAnimeBySearch } from "../../apis/jikan/jikan_api_requests";
 import SearchResults from "./SearchResults/SearchResults";
+import { getUsersBySearch } from "../../apis/mockapi/mockapi_api_requests";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearchInput, setDebouncedSearchInput] = useState(searchInput);
   const [searchResults, setSearchResults] = useState([]);
+  const [selectValue, setSelectValue] = useState("anime");
+  const [searchType, setSearchType] = useState("anime");
   const searchbarRef = useRef();
 
   useEffect(() => {
@@ -21,12 +24,20 @@ const SearchBar = () => {
 
   useEffect(() => {
     const search = async () => {
-      const results = await getAnimeBySearch(debouncedSearchInput);
+      let results = [];
+      if (selectValue === "anime") {
+        results = await getAnimeBySearch(debouncedSearchInput);
+        setSearchType("anime");
+      }
+      if (selectValue === "users") {
+        results = await getUsersBySearch(debouncedSearchInput);
+        setSearchType("users");
+      }
       setSearchResults(results);
     };
     if (debouncedSearchInput !== "") search();
     else setSearchResults([]);
-  }, [debouncedSearchInput]);
+  }, [debouncedSearchInput, selectValue]);
 
   useEffect(() => {
     if (searchResults.length > 0) {
@@ -58,6 +69,14 @@ const SearchBar = () => {
           className="searchbar"
           onSubmit={onSearchSubmit}
         >
+          <select
+            className="search-categories"
+            value={selectValue}
+            onChange={({ target }) => setSelectValue(target.value)}
+          >
+            <option value="anime">Anime</option>
+            <option value="users">Users</option>
+          </select>
           <input
             id="searchbar-input"
             type="text"
@@ -69,7 +88,7 @@ const SearchBar = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
           </button>
           {searchResults.length > 0 && (
-            <SearchResults results={searchResults} />
+            <SearchResults results={searchResults} searchType={searchType} />
           )}
         </form>
       </div>

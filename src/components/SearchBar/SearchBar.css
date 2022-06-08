@@ -21,7 +21,7 @@
 }
 
 #searchbar-input {
-  flex-grow: 1;
+  width: 80%;
   padding: 1rem;
   font-size: 2rem;
   border: none;
@@ -47,4 +47,20 @@
 
 .searchbar-btn:hover {
   cursor: pointer;
+}
+
+.search-categories {
+  height: 100%;
+  padding: 1rem;
+  font-size: 2rem;
+  outline: none;
+  border: none;
+  background-color: #ce1212;
+  color: #eeebdd;
+}
+
+@media all and (max-width: 1050px) {
+  .searchbar {
+    width: auto;
+  }
 }

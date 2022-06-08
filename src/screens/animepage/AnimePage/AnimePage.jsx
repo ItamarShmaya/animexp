@@ -9,9 +9,11 @@ import {
 import { useEffect, useState } from "react";
 import AnimeHero from "./AnimeHero/AnimeHero";
 import Spinner from "../../../components/Spinner/Spinner";
-import AnimeContent from "./AnimeContent/AnimeContent";
+import AnimeInformation from "./AnimeInformation/AnimeInformation";
+import CharactersAndActors from "./CharachtersAndActors/CharactersAndActors";
 import AnimeRecommendations from "./AnimeRecommendations/AnimeRecommendations";
 import Trailer from "./Trailer/Trailer";
+import AnimeBanner from "./AnimeHero/AnimeBanner/AnimeBanner";
 
 const AnimePage = ({
   match: {
@@ -19,7 +21,7 @@ const AnimePage = ({
   },
 }) => {
   const [anime, setAnime] = useState({});
-  const [pictures, setPictures] = useState({});
+  const [pictures, setPictures] = useState(null);
   const [characters, setCharacters] = useState({});
   const [recommendations, setRecommendations] = useState({});
 
@@ -28,7 +30,7 @@ const AnimePage = ({
     const fetchAnimeData = async () => {
       timeOutId = setTimeout(async () => {
         const animeResponse = await getAnimeById(id);
-        setAnime(animeResponse.data);
+        animeResponse && setAnime(animeResponse.data);
       }, 1000);
     };
     fetchAnimeData();
@@ -42,11 +44,28 @@ const AnimePage = ({
 
   useEffect(() => {
     let timeOutId;
+    const fetchAnimePictures = async () => {
+      timeOutId = setTimeout(async () => {
+        const picturesResponse = await getAnimePicturesById(id);
+        picturesResponse && setPictures(picturesResponse.data);
+      }, 2000);
+    };
+    fetchAnimePictures();
+    return () => {
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+    };
+    // eslint-disable-next-line
+  }, [id]);
+
+  useEffect(() => {
+    let timeOutId;
     const fetchAnimeCharacters = async () => {
       timeOutId = setTimeout(async () => {
         const charactersResponse = await getAnimeCharactersById(id);
-        setCharacters(charactersResponse.data);
-      }, 1500);
+        charactersResponse && setCharacters(charactersResponse.data);
+      }, 3000);
     };
     fetchAnimeCharacters();
     return () => {
@@ -63,7 +82,7 @@ const AnimePage = ({
         const recommendationResponse = await getAnimeRecommendationsById(id);
         recommendationResponse &&
           setRecommendations(recommendationResponse.data);
-      }, 2000);
+      }, 4000);
     };
     fetchAnimeRecommendations();
     return () => {
@@ -74,38 +93,32 @@ const AnimePage = ({
     // eslint-disable-next-line
   }, [id]);
 
-  useEffect(() => {
-    let timeOutId;
-    const fetchAnimePictures = async () => {
-      timeOutId = setTimeout(async () => {
-        const picturesResponse = await getAnimePicturesById(id);
-        setPictures(picturesResponse.data);
-      }, 2500);
-    };
-    fetchAnimePictures();
-    return () => {
-      if (timeOutId) {
-        clearTimeout(timeOutId);
-      }
-    };
-    // eslint-disable-next-line
-  }, [id]);
-
   return (
     <div className="anime-page">
-      {Object.keys(anime).length > 0 &&
-      Object.keys(pictures).length > 0 &&
-      Object.keys(characters).length > 0 ? (
-        <>
-          <AnimeHero anime={anime} pictures={pictures} animeId={id} />
-          <AnimeContent anime={anime} characters={characters} />
-          {Object.keys(recommendations).length > 0 && (
-            <AnimeRecommendations recommendations={recommendations} />
+      <div className="anime-hero">
+        {pictures && Object.keys(anime).length > 0 && (
+          <AnimeBanner pictures={pictures} images={anime.images} />
+        )}
+        {Object.keys(anime).length > 0 ? (
+          <AnimeHero anime={anime} animeId={id} />
+        ) : (
+          <Spinner />
+        )}
+      </div>
+      <div className="main-content">
+        {Object.keys(anime).length > 0 && <AnimeInformation anime={anime} />}
+
+        <div className="main-content-right-side">
+          {Object.keys(characters).length > 0 && (
+            <CharactersAndActors characters={characters} />
           )}
-          {anime.trailer.embed_url && <Trailer trailer={anime.trailer} />}
-        </>
-      ) : (
-        <Spinner />
+        </div>
+      </div>
+      {Object.keys(recommendations).length > 0 && (
+        <AnimeRecommendations recommendations={recommendations} />
+      )}
+      {Object.keys(anime).length > 0 && anime.trailer.embed_url && (
+        <Trailer trailer={anime.trailer} />
       )}
     </div>
   );
