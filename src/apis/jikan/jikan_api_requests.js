@@ -69,6 +69,18 @@ export const getAnimeCharactersById = async (id) => {
   }
 };
 
+export const getAnimeRecommendationsById = async (id) => {
+  try {
+    const { data: animeRecommendations } = await jikan.get(
+      `anime/${id}/recommendations`
+    );
+    return animeRecommendations;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
 export const getTopAnime = async () => {
   try {
     const { data: topAnime } = await jikan.get("/top/anime");
@@ -99,23 +111,54 @@ export const getTopCharacters = async () => {
   }
 };
 
-export const getAnimeRecommendationsById = async (id) => {
-  try {
-    const { data: animeRecommendations } = await jikan.get(
-      `anime/${id}/recommendations`
-    );
-    return animeRecommendations;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
-
 export const getAnimeReviewsById = async (id) => {
   try {
     const { data: animeReviews } = await jikan.get(`anime/${id}/reviews`);
     return animeReviews;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getMangaById = async (id) => {
+  try {
+    const { data: manga } = await jikan.get(`manga/${id}/full`);
+    return manga;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMangaPicturesById = async (id) => {
+  try {
+    const { data: pictures } = await jikan.get(`/manga/${id}/pictures`);
+    return pictures;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export const getMangaCharactersById = async (id) => {
+  try {
+    const { data: charactersByManga } = await jikan.get(
+      `/manga/${id}/characters`
+    );
+    return charactersByManga;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+export const getMangaRecommendationsById = async (id) => {
+  try {
+    const { data: mangaRecommendations } = await jikan.get(
+      `manga/${id}/recommendations`
+    );
+    return mangaRecommendations;
+  } catch (error) {
+    console.error(error);
+    return error;
   }
 };

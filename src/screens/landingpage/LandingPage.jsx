@@ -15,7 +15,7 @@ const LandingPage = () => {
   const [topAnime, setTopAnime] = useState([]);
   const [topManga, setTopManga] = useState([]);
   const [topCharacters, setTopCharacters] = useState([]);
-  const [getLocalStorage, setLocalStorage] = useLocalStorage();
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
 
   useEffect(() => {
     let id;

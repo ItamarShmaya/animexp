@@ -7,7 +7,7 @@ import {
   useIsUserLoggedIn,
 } from "../../../../context/context_custom_hooks";
 
-const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
+const AnimeListItem = ({ anime, username, setUserAnimeList, route }) => {
   const { title, image, episodes, progress, type, comment, mal_id } = anime;
   const [progressEditMode, setProgressEditMode] = useState(false);
   const [commentEditMode, setCommentEditMode] = useState(false);
@@ -30,7 +30,9 @@ const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
     const newUserData = { ...loggedInUser };
     newUserData.list = newUserData.list.map((anime) => {
       if (anime.mal_id === mal_id) {
-        if (keyToUpdate === "progress" && value > episodes) value = episodes;
+        const tempEpisodes = episodes ? episodes : 1;
+        if (keyToUpdate === "progress" && value > tempEpisodes)
+          value = tempEpisodes;
         else if (keyToUpdate === "progress" && value < 1) value = 1;
         anime[keyToUpdate] = value;
       }
@@ -85,7 +87,7 @@ const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
     if (!isloggedInUserList) {
       return (
         <>
-          <span>{progress || 1}</span>/{episodes}
+          <span>{progress || 1}</span>/{episodes || 1}
         </>
       );
     } else {
@@ -98,17 +100,12 @@ const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
               value={progressInput}
               type="number"
               min={1}
-              max={episodes}
+              max={episodes || 1}
             />
           ) : (
-            <span
-              className="editable"
-              onClick={() => setProgressEditMode(true)}
-            >
-              {progress || 1}
-            </span>
+            <span>{progress || 1}</span>
           )}
-          /{episodes}
+          /{episodes || 1}
         </>
       );
     }
@@ -155,13 +152,18 @@ const AnimeListItem = ({ anime, username, setUserAnimeList }) => {
   return (
     <div className="list-item">
       <div className="mylist-item-img-container">
-        <NavLink to={`/anime/${mal_id}`}>
+        <NavLink to={`/${route}/${mal_id}`}>
           <img alt={title} src={image} />
         </NavLink>
       </div>
       <div className="mylist-item-title">{title}</div>
       <div className="mylist-item-type">{type}</div>
-      <div className="mylist-item-episodes">{renderProgressCol()}</div>
+      <div
+        className="mylist-item-episodes editable"
+        onClick={() => setProgressEditMode(true)}
+      >
+        {renderProgressCol()}
+      </div>
       <div className="mylist-item-comment">{renderCommentCol()}</div>
       {isloggedInUserList && (
         <div className="mylist-item-delete">

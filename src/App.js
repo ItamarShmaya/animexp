@@ -9,6 +9,7 @@ import Profile from "./screens/profile/Profile";
 import LandingPage from "./screens/landingpage/LandingPage";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import EditProfilePage from "./screens/editProfilePage/EditProfilePage/EditProfilePage";
+import MangaPage from "./screens/mangaPage/MangaPage/MangaPage";
 
 function App() {
   return (
@@ -22,6 +23,12 @@ function App() {
                 <LandingPage />
               </Suspense>
             </Route> */}
+
+            {/* <Route path="/anime/:id" exact>
+            <Suspense fallback={<Spinner />}>
+              <AnimePage />
+            </Suspense>
+          </Route> */}
             <Route path="/" exact component={LandingPage} />
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/profile/:username" exact component={Profile} />
@@ -32,11 +39,7 @@ function App() {
               component={EditProfilePage}
             />
             <Route path="/anime/:id" exact component={AnimePage} />
-            {/* <Route path="/anime/:id" exact>
-            <Suspense fallback={<Spinner />}>
-              <AnimePage />
-            </Suspense>
-          </Route> */}
+            <Route path="/manga/:id" exact component={MangaPage} />
             <Route
               path="*"
               render={() => {

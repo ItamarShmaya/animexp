@@ -9,13 +9,15 @@ import {
   useIsUserLoggedIn,
   useLoggedInUser,
 } from "../../../context/context_custom_hooks";
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 const EditProfilePage = ({ match, history }) => {
   const [avatarInput, setAvatarInput] = useState("");
-  const [genderInput, setGenderInput] = useState("");
+  const [genderInput, setGenderInput] = useState("Other");
   const [birthdayInput, setBirthdayInput] = useState("");
-  const { loggedInUser } = useLoggedInUser();
+  const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   const { isUserLoggedIn } = useIsUserLoggedIn();
+  const { setLocalStorage } = useLocalStorage();
 
   useEffect(() => {
     if (!isUserLoggedIn || loggedInUser.username !== match.params.username)
@@ -24,9 +26,11 @@ const EditProfilePage = ({ match, history }) => {
 
   const onAvatarSubmit = async (e) => {
     e.preventDefault();
-    await updateUserAvatarImage(loggedInUser.id, {
-      image: avatarInput,
-    });
+    const user = { ...loggedInUser };
+    user.image = avatarInput;
+    setLocalStorage("loggedInUser", user);
+    setLoggedInUser(user);
+    await updateUserAvatarImage(loggedInUser.id, user);
     setAvatarInput("");
   };
 
@@ -34,6 +38,8 @@ const EditProfilePage = ({ match, history }) => {
     e.preventDefault();
     const user = { ...loggedInUser };
     user.personalInfo.gender = genderInput;
+    setLocalStorage("loggedInUser", user);
+    setLoggedInUser(user);
     await updateUserGender(loggedInUser.id, user);
     setGenderInput("");
   };
@@ -42,6 +48,8 @@ const EditProfilePage = ({ match, history }) => {
     e.preventDefault();
     const user = { ...loggedInUser };
     user.personalInfo.birthday = birthdayInput;
+    setLocalStorage("loggedInUser", user);
+    setLoggedInUser(user);
     await updateUserBirthday(loggedInUser.id, user);
     setBirthdayInput("");
   };

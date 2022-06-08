@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.mylist-item-episodes input {
+  width: 40px;
+}
+
 .delete-button {
   background-color: #ce1212;
   color: #1b1717;

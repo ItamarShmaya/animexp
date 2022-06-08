@@ -1,32 +1,31 @@
-import "./AnimePage.css";
-import {
-  getAnimeById,
-  getAnimePicturesById,
-  getAnimeCharactersById,
-  getAnimeRecommendationsById,
-  // getAnimeReviewsById,
-} from "../../../apis/jikan/jikan_api_requests";
 import { useEffect, useState } from "react";
-import AnimeHero from "./AnimeHero/AnimeHero";
+import {
+  getMangaById,
+  getMangaPicturesById,
+  getMangaCharactersById,
+  getMangaRecommendationsById,
+} from "../../../apis/jikan/jikan_api_requests";
+import "./MangaPage.css";
+import MangaHero from "../../animepage/AnimePage/AnimeHero/AnimeHero";
+import MangaBanner from "../../animepage/AnimePage/AnimeHero/AnimeBanner/AnimeBanner";
+import MangaInformation from "./MangaInformation/MangaInformation";
+import MangaCharacters from "./MangaCharacters/MangaCharacters";
+import MangaRecommendations from "./MangaRecommendations/MangaRecommendations";
 import Spinner from "../../../components/Spinner/Spinner";
-import AnimeInformation from "./AnimeInformation/AnimeInformation";
-import CharactersAndActors from "./CharachtersAndActors/CharactersAndActors";
-import AnimeRecommendations from "./AnimeRecommendations/AnimeRecommendations";
-import Trailer from "./Trailer/Trailer";
-import AnimeBanner from "./AnimeHero/AnimeBanner/AnimeBanner";
-import { useLocalStorage } from "../../../hooks/useLocalStorage.js";
+import "../../animepage/AnimePage/AnimePage.css";
+import { getUserById } from "../../../apis/mockapi/mockapi_api_requests";
 import {
   useIsUserLoggedIn,
   useLoggedInUser,
 } from "../../../context/context_custom_hooks";
-import { getUserById } from "../../../apis/mockapi/mockapi_api_requests";
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
-const AnimePage = ({
+const MangaPage = ({
   match: {
     params: { id },
   },
 }) => {
-  const [anime, setAnime] = useState({});
+  const [manga, setManga] = useState({});
   const [pictures, setPictures] = useState(null);
   const [characters, setCharacters] = useState({});
   const [recommendations, setRecommendations] = useState({});
@@ -43,17 +42,17 @@ const AnimePage = ({
     };
     if (isUserLoggedIn) getUserData();
     // eslint-disable-next-line
-  }, [loggedInUser.id, isUserLoggedIn, anime.mal_id]);
+  }, [loggedInUser.id, isUserLoggedIn, manga.mal_id]);
 
   useEffect(() => {
     let timeOutId;
-    const fetchAnimeData = async () => {
+    const fetchMangaData = async () => {
       timeOutId = setTimeout(async () => {
-        const animeResponse = await getAnimeById(id);
-        animeResponse && setAnime(animeResponse.data);
+        const mangaResponse = await getMangaById(id);
+        mangaResponse && setManga(mangaResponse.data);
       }, 1000);
     };
-    fetchAnimeData();
+    fetchMangaData();
     return () => {
       if (timeOutId) {
         clearTimeout(timeOutId);
@@ -64,13 +63,13 @@ const AnimePage = ({
 
   useEffect(() => {
     let timeOutId;
-    const fetchAnimePictures = async () => {
+    const fetchMangaPictures = async () => {
       timeOutId = setTimeout(async () => {
-        const picturesResponse = await getAnimePicturesById(id);
+        const picturesResponse = await getMangaPicturesById(id);
         picturesResponse && setPictures(picturesResponse.data);
       }, 2000);
     };
-    fetchAnimePictures();
+    fetchMangaPictures();
     return () => {
       if (timeOutId) {
         clearTimeout(timeOutId);
@@ -81,13 +80,13 @@ const AnimePage = ({
 
   useEffect(() => {
     let timeOutId;
-    const fetchAnimeCharacters = async () => {
+    const fetchMangaCharacters = async () => {
       timeOutId = setTimeout(async () => {
-        const charactersResponse = await getAnimeCharactersById(id);
+        const charactersResponse = await getMangaCharactersById(id);
         charactersResponse && setCharacters(charactersResponse.data);
       }, 3000);
     };
-    fetchAnimeCharacters();
+    fetchMangaCharacters();
     return () => {
       if (timeOutId) {
         clearTimeout(timeOutId);
@@ -97,14 +96,14 @@ const AnimePage = ({
   }, [id]);
   useEffect(() => {
     let timeOutId;
-    const fetchAnimeRecommendations = async () => {
+    const fetchMagnaRecommendations = async () => {
       timeOutId = setTimeout(async () => {
-        const recommendationResponse = await getAnimeRecommendationsById(id);
+        const recommendationResponse = await getMangaRecommendationsById(id);
         recommendationResponse &&
           setRecommendations(recommendationResponse.data);
       }, 4000);
     };
-    fetchAnimeRecommendations();
+    fetchMagnaRecommendations();
     return () => {
       if (timeOutId) {
         clearTimeout(timeOutId);
@@ -116,12 +115,12 @@ const AnimePage = ({
   return (
     <div className="anime-page">
       <div className="anime-hero">
-        {pictures && Object.keys(anime).length > 0 && (
-          <AnimeBanner pictures={pictures} images={anime.images} />
+        {pictures && Object.keys(manga).length > 0 && (
+          <MangaBanner pictures={pictures} images={manga.images} />
         )}
-        {Object.keys(anime).length > 0 ? (
-          <AnimeHero
-            anime={anime}
+        {Object.keys(manga).length > 0 ? (
+          <MangaHero
+            anime={manga}
             animeId={id}
             watching={watching}
             setWatching={setWatching}
@@ -131,21 +130,19 @@ const AnimePage = ({
         )}
       </div>
       <div className="main-content">
-        {Object.keys(anime).length > 0 && <AnimeInformation anime={anime} />}
+        {Object.keys(manga).length > 0 && <MangaInformation manga={manga} />}
 
         <div className="main-content-right-side">
           {Object.keys(characters).length > 0 && (
-            <CharactersAndActors characters={characters} />
+            <MangaCharacters characters={characters} />
           )}
         </div>
       </div>
       {Object.keys(recommendations).length > 0 && (
-        <AnimeRecommendations recommendations={recommendations} />
-      )}
-      {Object.keys(anime).length > 0 && anime.trailer.embed_url && (
-        <Trailer trailer={anime.trailer} />
+        <MangaRecommendations recommendations={recommendations} />
       )}
     </div>
   );
 };
-export default AnimePage;
+
+export default MangaPage;

@@ -37,17 +37,24 @@ const AddToListButton = ({ anime, setWatching }) => {
         setWatching(true);
         return;
       }
-
-      const { mal_id, title, images, type, episodes } = anime;
+      const { mal_id, title, images, type } = anime;
       const animeEntry = {
         mal_id,
         title,
         image: images.jpg.image_url,
         type,
-        episodes,
         comment: "",
         progress: 1,
       };
+
+      if (
+        anime.type === "TV" ||
+        anime.type === "ONA" ||
+        anime.type === "Movie" ||
+        anime.type === "Music"
+      )
+        animeEntry.episodes = anime.episodes;
+      else if (anime.type === "Manga") animeEntry.episodes = anime.volumes;
 
       user.list = [...user.list, animeEntry];
       await addAnimeToUserList(loggedInUser.id, user);

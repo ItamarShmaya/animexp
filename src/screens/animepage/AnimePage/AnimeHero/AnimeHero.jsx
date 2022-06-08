@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./AnimeHero.css";
 import AddToListButton from "../../../../components/AddToListButton/AddToListButton";
 import { isAnimeInList } from "../../../../apis/mockapi/mockapi_actions";
@@ -6,27 +5,15 @@ import {
   useLoggedInUser,
   useIsUserLoggedIn,
 } from "../../../../context/context_custom_hooks";
-import { getUserById } from "../../../../apis/mockapi/mockapi_api_requests";
 
-const AnimeHero = ({ anime }) => {
+const AnimeHero = ({ anime, watching, setWatching }) => {
   const { title, synopsis, images, popularity, score, rank } = anime;
   const { loggedInUser } = useLoggedInUser();
   const { isUserLoggedIn } = useIsUserLoggedIn();
-  const [freshUserData, setFreshUserData] = useState(loggedInUser);
-  const [watching, setWatching] = useState(false);
-
-  useEffect(() => {
-    setWatching(false);
-    const getUserData = async () => {
-      const userData = await getUserById(loggedInUser.id);
-      setFreshUserData(userData);
-    };
-    if (isUserLoggedIn) getUserData();
-  }, [loggedInUser.id, isUserLoggedIn, anime.mal_id]);
 
   const renderAddToButton = () => {
     if (isUserLoggedIn) {
-      if (isAnimeInList(freshUserData, anime.mal_id) || watching) {
+      if (isAnimeInList(loggedInUser, anime.mal_id) || watching) {
         return <div>Watching</div>;
       }
     }

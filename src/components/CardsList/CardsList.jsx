@@ -5,16 +5,16 @@ import ImageSlide from "../ImageSlide/ImageSlide";
 
 const CardsList = ({ list, type, sliderSettings, cardHeight, cardWidth }) => {
   const renderCards = () => {
-    return list.map((anime, i) => {
+    return list.map((listItem, i) => {
       return (
         <NavLink
-          key={anime.mal_id || anime.entry.mal_id}
-          to={`/${type}/${anime.mal_id || anime.entry.mal_id}`}
+          key={listItem.mal_id || listItem.entry.mal_id}
+          to={`/${type}/${listItem.mal_id || listItem.entry.mal_id}`}
         >
           <Card
-            anime={anime.entry ? anime.entry : anime}
+            listItem={listItem.entry ? listItem.entry : listItem}
             index={i}
-            isReco={anime.entry ? true : false}
+            isReco={listItem.entry ? true : false}
             cardHeight={cardHeight}
             cardWidth={cardWidth}
           />

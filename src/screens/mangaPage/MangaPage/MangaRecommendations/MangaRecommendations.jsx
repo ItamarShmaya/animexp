@@ -1,11 +1,11 @@
-import "./AnimeRecommendations.css";
+import "./MangaRecommendations.css";
 import CardsList from "../../../../components/CardsList/CardsList";
 import { animePageRecommendationsSliderSettings } from "../../../../components/ImageSlide/sliderSettings";
 
-const AnimeRecommendations = ({ recommendations }) => {
+const MangaRecommendations = ({ recommendations }) => {
   return (
     <div className="recommendations-container">
-      <h1>Anime Recommendations</h1>
+      <h1>Manga Recommendations</h1>
       <CardsList
         list={recommendations}
         type="anime"
@@ -17,4 +17,4 @@ const AnimeRecommendations = ({ recommendations }) => {
     </div>
   );
 };
-export default AnimeRecommendations;
+export default MangaRecommendations;

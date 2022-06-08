@@ -157,6 +157,7 @@ const SignupPage = () => {
             placeholder="Birthday"
             onChange={({ target }) => setBirthdayInput(target.value)}
             max={new Date().toISOString().slice(0, 10)}
+            required
           />
         </div>
         <button className="btn">Sign Up</button>

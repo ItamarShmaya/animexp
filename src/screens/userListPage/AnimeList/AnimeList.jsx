@@ -4,15 +4,29 @@ import AnimeListItem from "./AnimeListItem/AnimeListItem";
 const AnimeList = ({ animeList, username, setUserAnimeList }) => {
   const renderAnimeList = (list) => {
     const sortedList = [...list].sort((anime1, anime2) => {
-      return anime1.title.toLowerCase() - anime2.title.toLowerCase();
+      return anime1.title
+        .toLowerCase()
+        .localeCompare(anime2.title.toLowerCase());
     });
     return sortedList.map((anime) => {
+      let route;
+      if (
+        anime.type === "TV" ||
+        anime.type === "ONA" ||
+        anime.type === "Movie" ||
+        anime.type === "Music"
+      )
+        route = "anime";
+      if (anime.type === "Manga" || anime.type === "Light Novel")
+        route = "manga";
+
       return (
         <AnimeListItem
           key={anime.mal_id}
           anime={anime}
           username={username}
           setUserAnimeList={setUserAnimeList}
+          route={route}
         />
       );
     });

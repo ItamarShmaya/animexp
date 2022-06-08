@@ -1,7 +1,13 @@
 import "./Card.css";
 
-const Card = ({ anime, index, isReco, cardHeight = 225, cardWidth = 150 }) => {
-  const { title, images, rank, name } = anime;
+const Card = ({
+  listItem,
+  index,
+  isReco,
+  cardHeight = 225,
+  cardWidth = 150,
+}) => {
+  const { title, images, rank, name } = listItem;
   return (
     <div
       className="card-container"

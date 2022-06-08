@@ -22,8 +22,7 @@ const Profile = ({ match }) => {
     loggedInUser.username === username
       ? setViewedUser(loggedInUser)
       : getViewedUser();
-    // eslint-disable-next-line
-  }, [username, loggedInUser.username]);
+  }, [username, loggedInUser.username, loggedInUser]);
 
   return (
     <div className="profile-page">
