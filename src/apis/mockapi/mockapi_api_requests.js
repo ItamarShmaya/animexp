@@ -48,7 +48,7 @@ export const getUserById = async (id) => {
 export const getUsersBySearch = async (q) => {
   const users = await getUsers();
   const results = users.filter((user) => {
-    return user.username.toLowerCase().includes(q);
+    return user.username.toLowerCase().includes(q.toLowerCase());
   });
   return results;
 };

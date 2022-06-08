@@ -41,3 +41,18 @@
 .user-info {
   padding: 1rem;
 }
+
+@media all and (max-width: 800px) {
+  .main-profile-content {
+    grid-template-columns: auto;
+    justify-content: center;
+    justify-items: center;
+  }
+
+  .user-info {
+    order: 2;
+  }
+
+  .profile-content {
+  }
+}

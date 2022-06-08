@@ -33,6 +33,7 @@ const AnimeList = ({ animeList, username, setUserAnimeList }) => {
   };
   return (
     <div className="mylist-container">
+      <div className="mobile-list-header">List</div>
       <div id="list-header" className="list-item">
         <div className="mylist-item-img-container"></div>
         <div className="mylist-item-title">Title</div>
