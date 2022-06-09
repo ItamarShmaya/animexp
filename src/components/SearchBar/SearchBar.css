@@ -45,7 +45,8 @@
   border-bottom-right-radius: 5px;
 }
 
-.searchbar-btn:hover {
+.searchbar-btn:hover,
+.search-categories:hover {
   cursor: pointer;
 }
 
