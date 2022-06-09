@@ -8,7 +8,7 @@ const MangaRecommendations = ({ recommendations }) => {
       <h1>Manga Recommendations</h1>
       <CardsList
         list={recommendations}
-        type="anime"
+        type="manga"
         sliderSettings={animePageRecommendationsSliderSettings}
         cardWidth={120}
         cardHeight={180}
