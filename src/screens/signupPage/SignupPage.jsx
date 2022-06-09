@@ -56,6 +56,7 @@ const SignupPage = () => {
             username,
             password,
             personalInfo: {
+              aboutMe: "",
               birthday: birthdayInput,
               gender: null,
               joined: new Date(),

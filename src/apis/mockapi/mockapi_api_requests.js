@@ -79,3 +79,12 @@ export const updateUserBirthday = async (id, body) => {
     console.error(error);
   }
 };
+
+export const updateAboutMe = async (id, body) => {
+  try {
+    const { data: user } = await mockapi.put(`/users/${id}`, body);
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
+};

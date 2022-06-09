@@ -35,6 +35,7 @@ const Profile = ({ match }) => {
             </div>
             <div className="profile-content">
               <h1 className="profile-heading">{viewedUser.username}</h1>
+              <div className="about-me">{viewedUser.personalInfo.aboutMe}</div>
             </div>
           </main>
         </>

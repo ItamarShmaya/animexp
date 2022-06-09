@@ -4,6 +4,7 @@ import {
   updateUserAvatarImage,
   updateUserBirthday,
   updateUserGender,
+  updateAboutMe,
 } from "../../../apis/mockapi/mockapi_api_requests";
 import {
   useIsUserLoggedIn,
@@ -12,11 +13,16 @@ import {
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 const EditProfilePage = ({ match, history }) => {
-  const [avatarInput, setAvatarInput] = useState("");
-  const [genderInput, setGenderInput] = useState("Other");
-  const [birthdayInput, setBirthdayInput] = useState("");
   const { loggedInUser, setLoggedInUser } = useLoggedInUser();
   const { isUserLoggedIn } = useIsUserLoggedIn();
+  const [avatarInput, setAvatarInput] = useState(loggedInUser.image);
+  const [genderInput, setGenderInput] = useState(
+    loggedInUser.personalInfo.gender
+  );
+  const [birthdayInput, setBirthdayInput] = useState(
+    loggedInUser.personalInfo.birthday
+  );
+  const [aboutMe, setAboutMe] = useState(loggedInUser.personalInfo.aboutMe);
   const { setLocalStorage } = useLocalStorage();
 
   useEffect(() => {
@@ -52,6 +58,16 @@ const EditProfilePage = ({ match, history }) => {
     setLoggedInUser(user);
     await updateUserBirthday(loggedInUser.id, user);
     setBirthdayInput("");
+  };
+
+  const onAboutMeSubmit = async (e) => {
+    e.preventDefault();
+    const user = { ...loggedInUser };
+    user.personalInfo.aboutMe = aboutMe;
+    setLocalStorage("loggedInUser", user);
+    setLoggedInUser(user);
+    await updateAboutMe(loggedInUser.id, user);
+    setAboutMe("");
   };
 
   return (
@@ -98,6 +114,23 @@ const EditProfilePage = ({ match, history }) => {
               onChange={({ target }) => setBirthdayInput(target.value)}
               max={new Date().toISOString().slice(0, 10)}
             />
+          </div>
+          <button>Submit</button>
+        </form>
+        <form
+          onSubmit={onAboutMeSubmit}
+          className="edit-field edit-aboutme-form"
+        >
+          <div className="edit-input">
+            <label htmlFor="aboutme">About Me</label>
+            <textarea
+              id="aboutme"
+              type="date"
+              value={aboutMe}
+              onChange={({ target }) => setAboutMe(target.value)}
+              rows="5"
+              cols="35"
+            ></textarea>
           </div>
           <button>Submit</button>
         </form>
