@@ -5,8 +5,6 @@ const Trailer = ({ trailer }) => {
     <div className="trailer-container">
       <h1>Trailer</h1>
       <iframe
-        width="560"
-        height="315"
         src={`${trailer.embed_url}`}
         title="YouTube video player"
         frameBorder="0"
