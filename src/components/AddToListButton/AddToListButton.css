@@ -26,3 +26,10 @@
   font-weight: bold;
   background-color: #eeebdd;
 }
+
+@media all and (max-width: 850px) {
+  .must-be-logged {
+    transform: translateX(calc(50% - 150px));
+    transform: translateY(calc(50% - 100px));
+  }
+}

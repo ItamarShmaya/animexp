@@ -21,6 +21,7 @@
   padding: 10px 10px 10px 0;
   max-width: 40%;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .edit-input {
@@ -30,4 +31,15 @@
 
 .edit-input label {
   min-width: 100px;
+}
+
+@media all and (max-width: 550px) {
+  .edit-field {
+    align-items: flex-end;
+  }
+  .edit-input {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
