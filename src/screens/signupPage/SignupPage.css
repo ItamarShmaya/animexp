@@ -1,6 +1,6 @@
 .signup-form-wrapper {
   width: 60%;
-  height: 100%;
+  min-height: 100vh;
   background-color: #eeebdd;
   margin: auto;
   display: flex;
@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   gap: 5rem;
+  /* padding: 20px; */
 }
 
 .signup-form {
@@ -60,4 +61,21 @@
 .signup-form .password {
   width: 100%;
   position: relative;
+}
+
+@media all and (max-width: 1000px) {
+  .signup-form-wrapper {
+    width: 90%;
+  }
+}
+
+@media all and (max-width: 800px) {
+  .signup-form {
+    width: 60%;
+  }
+}
+@media all and (max-width: 500px) {
+  .signup-form {
+    width: 80%;
+  }
 }

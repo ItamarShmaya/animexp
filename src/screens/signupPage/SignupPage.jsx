@@ -96,6 +96,7 @@ const SignupPage = () => {
             value={username}
             placeholder="Username"
             onChange={({ target }) => setUsername(target.value)}
+            required
           />
           {isInvalidUsername && (
             <span className="validty-message">
@@ -118,6 +119,7 @@ const SignupPage = () => {
               value={password}
               placeholder="Password"
               onChange={({ target }) => setPassword(target.value)}
+              required
             />
             <i
               onClick={onEyeIconClick}
@@ -147,6 +149,7 @@ const SignupPage = () => {
             value={retypePwd}
             placeholder="Retype password"
             onChange={({ target }) => setRetypePwd(target.value)}
+            required
           />
         </div>
         <div className="input-group">
